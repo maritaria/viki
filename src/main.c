@@ -30,9 +30,9 @@
  */
 #include <asf.h>
 
-#include "module_config.h"
-#include "module_display.h"
-#include "module_serial.h"
+#include "modules/config.h"
+#include "modules/display.h"
+#include "modules/serial.h"
 
 int main (void)
 {
@@ -43,7 +43,9 @@ int main (void)
 	config_init();
 	serial_init();
 	display_init();
+	
 	LED_On(LED2);
+	
 	while(true)
 	{
 		sleepmgr_enter_sleep();

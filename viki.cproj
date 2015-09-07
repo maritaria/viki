@@ -318,7 +318,6 @@
       <Value>../src/ASF/common/services/usb/udc</Value>
     </ListValues>
   </avr32gcc.compiler.directories.IncludePaths>
-  <avr32gcc.compiler.optimization.level>Optimize (-O1)</avr32gcc.compiler.optimization.level>
   <avr32gcc.compiler.optimization.OtherFlags>-fdata-sections</avr32gcc.compiler.optimization.OtherFlags>
   <avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>True</avr32gcc.compiler.optimization.PrepareFunctionsForGarbageCollection>
   <avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>True</avr32gcc.compiler.optimization.UseAssemblerForPseudoInstructions>
@@ -447,6 +446,7 @@
     <Folder Include="src\ASF\common\utils\" />
     <Folder Include="src\ASF\common\utils\interrupt\" />
     <Folder Include="src\config\" />
+    <Folder Include="src\modules" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\ASF\avr32\drivers\usbb\usbb_device.c">
@@ -518,16 +518,22 @@
     <Compile Include="src\defines.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\module_config.c">
+    <Compile Include="src\modules\config.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\module_config.h">
+    <Compile Include="src\modules\config.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\module_serial.c">
+    <Compile Include="src\modules\display.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\module_serial.h">
+    <Compile Include="src\modules\display.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\serial.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">
@@ -707,12 +713,6 @@
     <None Include="src\ASF\common\services\delay\delay.h">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="src\module_display.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\module_display.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="src\main.c">
       <SubType>compile</SubType>
     </Compile>

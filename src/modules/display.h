@@ -6,12 +6,13 @@
  */ 
 
 
-#ifndef MODULE_DISPLAY_H_
-#define MODULE_DISPLAY_H_
+#ifndef MODULES__DISPLAY_H_
+#define MODULES__DISPLAY_H_
+
 
 #include "defines.h"
 
 result display_init(void);
 
 
-#endif /* MODULE_DISPLAY_H_ */
+#endif /* MODULES__DISPLAY_H_ */

@@ -5,7 +5,7 @@
  *  Author: Eigenaar
  */ 
 
-#include "module_display.h"
+#include "modules/display.h"
 
 result display_init(void)
 {

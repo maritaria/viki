@@ -5,7 +5,7 @@
  *  Author: Eigenaar
  */
 
-#include "module_config.h"
+#include "modules/config.h"
 
 core_config_t myConfig;
 timer_config_t timers[4];

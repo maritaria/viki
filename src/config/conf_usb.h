@@ -49,7 +49,7 @@
 
 #include "compiler.h"
 
-#warning You must refill the following definitions with a correct values
+//#warning You must refill the following definitions with a correct values
 
 /**
  * USB Device Configuration
@@ -58,7 +58,7 @@
 
 //! Device definition (mandatory)
 #define  USB_DEVICE_VENDOR_ID             USB_VID_ATMEL
-#define  USB_DEVICE_PRODUCT_ID            USB_PID_ATMEL_ASF_CDC
+#define  USB_DEVICE_PRODUCT_ID            USB_PID_ATMEL_UC3_CDC_DEBUG
 #define  USB_DEVICE_MAJOR_VERSION         1
 #define  USB_DEVICE_MINOR_VERSION         0
 #define  USB_DEVICE_POWER                 100 // Consumption on Vbus line (mA)
@@ -124,12 +124,12 @@
 #define  UDI_CDC_PORT_NB 1
 
 //! Interface callback definition
-#define  UDI_CDC_ENABLE_EXT(port)          true
-#define  UDI_CDC_DISABLE_EXT(port)
-#define  UDI_CDC_RX_NOTIFY(port)
+//#define  UDI_CDC_ENABLE_EXT(port)          true
+//#define  UDI_CDC_DISABLE_EXT(port)
+//#define  UDI_CDC_RX_NOTIFY(port)
 #define  UDI_CDC_TX_EMPTY_NOTIFY(port)
 #define  UDI_CDC_SET_CODING_EXT(port,cfg)
-#define  UDI_CDC_SET_DTR_EXT(port,set)
+//#define  UDI_CDC_SET_DTR_EXT(port,set)
 #define  UDI_CDC_SET_RTS_EXT(port,set)
 
 #define UDI_CDC_ENABLE_EXT(port) serial_cdc_enable(port)

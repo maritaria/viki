@@ -6,8 +6,9 @@
  */ 
 
 
-#ifndef MODULE_CONFIG_H_
-#define MODULE_CONFIG_H_
+#ifndef MODULES__CONFIG_H_
+#define MODULES__CONFIG_H_
+
 
 #include <asf.h>
 #include "defines.h"
@@ -43,4 +44,5 @@ core_config_t* config_get(void);
 result config_save(void);
 result config_load(void);
 
-#endif /* MODULE_CONFIG_H_ */
+
+#endif /* MODULES__CONFIG_H_ */

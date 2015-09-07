@@ -5,8 +5,8 @@
  *  Author: Eigenaar
  */
 
-#include "module_serial.h"
-#include "module_config.h"
+#include "modules/serial.h"
+#include "modules/config.h"
 
 result serial_init(void)
 {
