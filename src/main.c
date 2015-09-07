@@ -30,11 +30,24 @@
  */
 #include <asf.h>
 
+#include "module_config.h"
+#include "module_display.h"
+#include "module_serial.h"
+
 int main (void)
 {
 	// Insert system clock initialization code here (sysclk_init()).
 
+	sysclk_init();
 	board_init();
-
+	config_init();
+	serial_init();
+	display_init();
+	LED_On(LED2);
+	while(true)
+	{
+		sleepmgr_enter_sleep();
+	}
+	
 	// Insert application code here, after the board has been initialized.
 }
