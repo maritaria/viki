@@ -32,24 +32,21 @@
 
 #include "modules/config.h"
 #include "modules/display.h"
+#include "modules/input.h"
 #include "modules/serial.h"
 
 int main (void)
 {
-	// Insert system clock initialization code here (sysclk_init()).
-
 	sysclk_init();
+	irq_initialize_vectors();
 	board_init();
 	config_init();
 	serial_init();
 	display_init();
-	
-	LED_On(LED2);
-	
+	input_init();
 	while(true)
 	{
-		sleepmgr_enter_sleep();
+		//sleepmgr_enter_sleep();
+		display_update();
 	}
-	
-	// Insert application code here, after the board has been initialized.
 }

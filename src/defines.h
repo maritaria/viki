@@ -9,10 +9,9 @@
 #ifndef DEFINES_H_
 #define DEFINES_H_
 
+#define DEFINE_TYPE(TYPE, NAME) typedef TYPE NAME NAME; TYPE NAME
 
-typedef enum result result;
-enum result
-{
+DEFINE_TYPE(enum, result) {
 	success,
 	failure,
 };

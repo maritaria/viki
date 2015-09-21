@@ -13,17 +13,13 @@
 #include <asf.h>
 #include "defines.h"
 
-typedef enum timer_mode timer_mode;
-typedef struct timer_config_t timer_config_t;
-typedef struct core_config_t core_config_t;
-
-enum timer_mode {
+DEFINE_TYPE(enum, timer_mode) {
 	turnOn,
 	turnOff,
 	toggle
 };
 
-struct timer_config_t {
+DEFINE_TYPE(struct, timer_config_t) {
 	int timestamp;
 	int interval;
 	bool enabled;
@@ -31,16 +27,26 @@ struct timer_config_t {
 	timer_mode mode;
 };
 
-struct core_config_t {
-	timer_config_t* config1;
-	timer_config_t* config2;
-	timer_config_t* config3;
-	timer_config_t* config4;
+DEFINE_TYPE(struct, input_flags_t) {
+	bool joystick_up;
+	bool joystick_down;
+	bool joystick_left;
+	bool joystick_right;
+	bool joystick_push;
+	bool button0;
+	bool button1;
+	bool button2;
+};
+
+#define TIMER_CONFIG_COUNT 4
+DEFINE_TYPE(struct, global_config_t) {
+	timer_config_t timers[TIMER_CONFIG_COUNT];
+	input_flags_t input_flags;
 	bool com_enabled;
 };
 
 result config_init(void);
-core_config_t* config_get(void);
+global_config_t* config_get(void);
 result config_save(void);
 result config_load(void);
 
