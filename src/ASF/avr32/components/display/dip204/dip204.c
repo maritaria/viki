@@ -332,6 +332,22 @@ void dip204_set_cursor_position(unsigned char column, unsigned char line)
   dip204_unselect();
 }
 
+void dip204_get_cursor_position(unsigned char* column, unsigned char* line)
+{
+	unsigned char i;
+	/* Connect */
+	dip204_select();
+	/* Send Read Command Start-Byte */
+	dip204_write_byte(DIP204_READ_COMMAND);
+	/* Read status */
+	dip204_read_byte(&i);
+	/* Extract and save line and column cursor information */
+	*line = ((i&0x60) >> 5) + 1;
+	*column = (i&0x1F) + 1;
+	/* Disconnect */
+	dip204_wait_busy();
+	dip204_unselect();
+}
 
 void dip204_clear_display(void)
 {

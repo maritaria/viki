@@ -135,6 +135,14 @@ extern void dip204_create_char(char ascii_code, const unsigned char data[8]);
  */
 extern void dip204_set_cursor_position(unsigned char column, unsigned char line);
 
+/*! Get cursor position
+ * 
+ * \param  column   Output. Column of the cursor's position (from 1 to 20).
+ * \param  line     Output. Line of the cursor's position (from 1 to 4).
+ * 
+ */
+extern void dip204_get_cursor_position(unsigned char* column, unsigned char* line);
+
 /*! Clear the LCD screen
  *         (need void delay_ms(unsigned short time_ms) function to perform active wait)
  *
