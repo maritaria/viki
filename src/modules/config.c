@@ -1,13 +1,5 @@
-/*
- * module_config.c
- *
- * Created: 7-9-2015 9:02:39
- *  Author: Eigenaar
- */
-
 #include "modules/config.h"
 
-global_config_t config_instance = {};
 timer_config_t timers[4] = {};
 input_flags_t input_flags = {};
 

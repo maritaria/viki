@@ -1,52 +1,51 @@
-/**
- * \file
- *
- * \brief Empty user application template
- *
- */
-
-/**
- * \mainpage User Application template doxygen documentation
- *
- * \par Empty user application template
- *
- * Bare minimum empty user application template
- *
- * \par Content
- *
- * -# Include the ASF header files (through asf.h)
- * -# "Insert system clock initialization code here" comment
- * -# Minimal main function that starts with a call to board_init()
- * -# "Insert application code here" comment
- *
- */
-
-/*
- * Include header files for all drivers that have been imported from
- * Atmel Software Framework (ASF).
- */
- /**
- * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
- */
+//Standard C
+//ASF
 #include <asf.h>
-
+//Custom
 #include "modules/config.h"
 #include "modules/display.h"
-#include "modules/input.h"
+#include "modules/joystick.h"
 #include "modules/serial.h"
+#include "modules/menu.h"
+
+void init_device(void);
+void init_modules(void);
+void run_application(void);
 
 int main (void)
 {
-	sysclk_init();
+	init_device();
+	init_modules();
+	
+	run_application();
+	
+}
+
+void init_device()
+{
 	irq_initialize_vectors();
+	cpu_irq_enable();
+	sleepmgr_init();
+	sysclk_init();
 	board_init();
+}
+
+void init_modules()
+{
 	config_init();
 	serial_init();
 	display_init();
-	input_init();
+	joystick_init();
+	menu_init();
+}
+
+void run_application()
+{
+	display_clear();
+	display_print("Application started");
 	while(true)
 	{
-		//sleepmgr_enter_sleep();
+		menu_update();
 		display_update();
 	}
 }

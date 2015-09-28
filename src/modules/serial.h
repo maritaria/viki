@@ -1,19 +1,13 @@
-/*
- * module_serial.h
- *
- * Created: 1-9-2015 11:01:52
- *  Author: Eigenaar
- */ 
-
-
 #ifndef MODULES__SERIAL_H_
 #define MODULES__SERIAL_H_
 
-
+//Standard C
+//ASF
 #include <asf.h>
-#include "defines.h"
+//Custom
+#include "macros.h"
 
-result serial_init(void);
+bool serial_init(void);
 bool serial_cdc_enable(uint8_t port);
 void serial_cdc_disable(uint8_t port);
 void serial_cdc_rx_notify(uint8_t port);

@@ -452,6 +452,12 @@
     <Compile Include="src\ASF\avr32\drivers\usbb\usbb_device.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\timeswitches.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\timeswitches.h">
+      <SubType>compile</SubType>
+    </Compile>
     <None Include="atmel_devices_cdc.cat">
       <SubType>compile</SubType>
     </None>
@@ -515,7 +521,7 @@
     <None Include="src\ASF\common\services\usb\udc\udi.h">
       <SubType>compile</SubType>
     </None>
-    <Compile Include="src\defines.h">
+    <Compile Include="src\macros.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\modules\config.c">
@@ -530,10 +536,16 @@
     <Compile Include="src\modules\display.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\modules\input.c">
+    <Compile Include="src\modules\joystick.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\modules\input.h">
+    <Compile Include="src\modules\joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menu.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\modules\serial.c">

@@ -11,14 +11,10 @@
 #include "modules/config.h"
 #include "modules/display.h"
 
-result serial_init(void)
+bool serial_init(void)
 {
-	irq_initialize_vectors();
-	cpu_irq_enable();
-	sleepmgr_init();
-	sysclk_init();
 	udc_start();
-	return success;
+	return true;
 }
 
 bool serial_cdc_enable(uint8_t port)
@@ -26,9 +22,8 @@ bool serial_cdc_enable(uint8_t port)
 	//Communication has opened
 	LED_On(LED0);
 	display_clear();
-	display_write("USB Ready");
-	//Allow
-	return true;
+	display_print("USB Ready");
+	return true;//Allow
 }
 
 void serial_cdc_disable(uint8_t port)
@@ -36,23 +31,23 @@ void serial_cdc_disable(uint8_t port)
 	//Communication has closed
 	LED_Off(LED0);
 }
-int buffer_size = 40;
-char buffer[40] = { ' ' };
+
+#define SERIAL_SCREEN_BUFFER (40)
+char buffer[SERIAL_SCREEN_BUFFER] = { ' ' };
 int buffer_index = 0;
 void serial_cdc_rx_notify(uint8_t port)
 {
 	display_clear();
-	display_write("Received:\t");
+	display_print("Received:\t");
 	while(udi_cdc_is_rx_ready())
 	{
 		buffer[buffer_index++] = (char)udi_cdc_getc();
-		if (buffer_index >= buffer_size - 1)
+		if (buffer_index >= SERIAL_SCREEN_BUFFER)
 		{
 			buffer_index = 0;
 		}
-		buffer[buffer_size] = '\0';
 	}
-	display_write(buffer);
+	display_printf(5 + SERIAL_SCREEN_BUFFER, "USB:\n%s", buffer);
 }
 
 void serial_cdc_dtr_changed(uint8_t port, bool comEnabled)
@@ -60,11 +55,11 @@ void serial_cdc_dtr_changed(uint8_t port, bool comEnabled)
 	if (comEnabled)
 	{
 		LED_On(LED1);
-		config_get()->com_enabled = true;
+		CONFIG.com_enabled = true;
 	}
 	else
 	{
 		LED_Off(LED1);
-		config_get()->com_enabled = false;
+		CONFIG.com_enabled = false;
 	}
 }

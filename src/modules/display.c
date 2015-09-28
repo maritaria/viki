@@ -1,16 +1,15 @@
-/*
- * module_serial.c
- *
- * Created: 1-9-2015 11:01:40
- *  Author: Eigenaar
- */ 
-
 #include "modules/display.h"
+//C standard library
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+//ASF
 #include <dip204.h>
 #include <board.h>
 #include <spi.h>
 #include <gpio.h>
-#include <string.h>
+//Modules
+#include "modules/config.h"
 
 volatile char displayBuffer[DISPLAY_HEIGHT][DISPLAY_WIDTH];
 volatile bool cursor_enabled_desired = false;
@@ -21,18 +20,16 @@ volatile unsigned char cursor_y_desired;
 
 void display_init_gpio(void);
 void display_init_spi(void);
+void display_init_device(void);
 void display_update_content(void);
 void display_update_cursor(void);
 
-result display_init(void)
+bool display_init(void)
 {
 	display_init_spi();
 	display_init_gpio();
-	dip204_init(backlight_IO, true);
-	display_clear();
-	display_set_cursor(false);
-	display_write("Booting...\0");
-	return success;
+	display_init_device();
+	return true;
 }
 
 void display_init_gpio()
@@ -66,6 +63,13 @@ void display_init_spi()
 	spi_setupChipReg(DIP204_SPI, &spiOptions, FOSC0 * 4);
 }
 
+void display_init_device()
+{
+	dip204_init(backlight_IO, true);
+	display_clear();
+	display_set_cursor(false);
+}
+
 void display_update()
 {
 	display_update_content();
@@ -93,7 +97,7 @@ void display_update_cursor()
 		}
 		else
 		{
-			dip204_hide_cursor();
+			//dip204_hide_cursor();
 		}
 		cursor_enabled_real = cursor_enabled_desired;
 	}
@@ -174,4 +178,24 @@ void display_write_char(char character)
 {
 	char text[2] = { character, '\0' };
 	display_write(text);
+}
+
+void display_printf(size_t maxLength, const char* format, ...)
+{
+	maxLength++;//Add space for the '\0'
+	char* buffer = (char*)malloc(maxLength);
+	memset(buffer, '\0', maxLength);
+	
+	va_list arg;
+	va_start(arg, format);
+	size_t i = vsnprintf(buffer, maxLength, format, arg);
+	va_end(arg);
+	
+	while(i < maxLength - 1)
+	{
+		buffer[i] = '\0';
+		i++;
+	}
+	display_write(buffer);
+	free(buffer);
 }
