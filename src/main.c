@@ -16,9 +16,7 @@ int main (void)
 {
 	init_device();
 	init_modules();
-	
 	run_application();
-	
 }
 
 void init_device()

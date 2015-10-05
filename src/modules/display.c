@@ -132,7 +132,7 @@ void display_clear()
 	display_set_pos(0, 0);
 }
 
-void display_write(const char* text)
+void display_print(const char* text)
 {
 	unsigned char currentPos, currentLine;
 	display_get_pos(&currentPos, &currentLine);
@@ -174,10 +174,10 @@ void display_write(const char* text)
 	display_set_pos(currentPos, currentLine);
 }
 
-void display_write_char(char character)
+void display_printc(char character)
 {
 	char text[2] = { character, '\0' };
-	display_write(text);
+	display_print(text);
 }
 
 void display_printf(size_t maxLength, const char* format, ...)
@@ -196,6 +196,6 @@ void display_printf(size_t maxLength, const char* format, ...)
 		buffer[i] = '\0';
 		i++;
 	}
-	display_write(buffer);
+	display_print(buffer);
 	free(buffer);
 }

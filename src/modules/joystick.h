@@ -16,17 +16,20 @@ DEFINE_TYPE(struct, input_t) {
 	bool joystick_left;
 	bool joystick_right;
 	bool joystick_pressed;
-	bool button0;
-	bool button1;
-	bool button2;
 };
 
 bool joystick_init(void);
 bool joystick_is_up(void);
 bool joystick_is_down(void);
 bool joystick_is_left(void);
-bool joystick_is_down(void);
+bool joystick_is_right(void);
 bool joystick_is_pressed(void);
+void joystick_clear(void);
+void joystick_clear_left(void);
+void joystick_clear_right(void);
+void joystick_clear_up(void);
+void joystick_clear_down(void);
+void joystick_clear_pressed(void);
 
 __always_inline static int joystick_is_up_raw(void)
 {

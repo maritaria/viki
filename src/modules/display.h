@@ -33,7 +33,7 @@ void display_get_pos(unsigned char* x, unsigned char* y);
 
 /* Clears the display and sets the cursor to the top-left corner*/
 void display_clear(void);
-/* Prints a (constant) string to the current position, supports \n, \r, \t and wraps the text automatically */
+/* Prints a (constant) string to the current position, supports newlines, tabs and wraps the text automatically */
 void display_print(const char* text);
 /* Prints a single character to the current position, and advances the position */
 void display_printc(char character);

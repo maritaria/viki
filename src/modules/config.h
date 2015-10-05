@@ -22,7 +22,7 @@ DEFINE_TYPE(enum, menu_enum) {
 				alert_edit_interval,
 				alert_edit_repeat,
 				alert_edit_target,
-				alert_edit_behaviour,
+				alert_edit_behavior,
 				alert_edit_enable,
 				alert_edit_clear,
 		usb_settings,

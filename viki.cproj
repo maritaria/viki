@@ -447,9 +447,28 @@
     <Folder Include="src\ASF\common\utils\interrupt\" />
     <Folder Include="src\config\" />
     <Folder Include="src\modules" />
+    <Folder Include="src\modules\menus" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\ASF\avr32\drivers\usbb\usbb_device.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_default.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_default.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_submenu.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_submenu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\menu_default.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\menu_default.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\modules\timeswitches.c">
