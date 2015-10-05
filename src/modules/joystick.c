@@ -1,4 +1,4 @@
-#include "joystick.h"
+#include "modules/joystick.h"
 //Standard C
 //ASF
 //Custom

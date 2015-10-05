@@ -19,5 +19,7 @@ DEFINE_TYPE(struct, timeswitch_config_t) {
 	timeswitch_behaviour behaviour;
 };
 
+void timeswitches_init(void);
+void timeswitches_rtc_poll(void);
 
 #endif /* TIMESWITCHES_H_ */

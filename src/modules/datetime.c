@@ -1,21 +1,49 @@
-/*
- * Klok.c
- *
- * Created: 28-9-2015 9:45:09
- *  Author: Tjalling
- */ 
-
+#include "modules/datetime.h"
+//Standard C
+//ASF
 #include <asf.h>
 #include <tc.h>
+//Custom
+#include "modules/config.h"
 #include "modules/system_clock.h"
-#include "modules/clock.h"
-
 
 int uur = 0;
 int minuut = 0;
 int seconde = 0;
 
 int rtc;
+
+datetime_t current_time;
+
+void datetime_init(void)
+{
+	//Initialize datetime_t variable
+	current_time = {0};
+}
+
+void datetime_current_time(datetime_t* date)
+{
+	date->d = current_time.d;
+	//ETC...
+}
+
+void datetime_increment_by_ms(int elapsed_ms)
+{
+	//Called from sysclock
+	//Increment the current datetime by the given number of milliseconds
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 void Klok(void);
 void checkTargetTime(int, int, int, int, int, int);
@@ -49,7 +77,7 @@ void checkTargetTime(int seconde, int minuut, int uur, int targettime_uur, int t
 {
 	if(minuut == targettime_min && uur == targettime_uur && seconde - targettime_sec <= 1)
 	{
-		tc(seconde, targettime_sec);
+		sysclock_start_timer(seconde, targettime_sec);
 	}
 }
 void updateTime(int sec, int min, int hour)

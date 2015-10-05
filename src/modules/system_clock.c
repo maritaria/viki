@@ -1,13 +1,14 @@
-/*
- * RTC.c
- *
- * Created: 28-9-2015 9:04:34
- *  Author: Tjalling
- */ 
-
+#include "modules/system_clock.h"
+//Standard C
+//ASF
 #include <asf.h>
 #include <tc.h>
-#include "modules/system_clock.h"
+//Custom
+#include "modules/config.h"
+
+#define top_val (0)
+#define TC_channel (0)
+#define TC (&AVR32_TC)
 
 volatile static int rtc_int = 0;
 volatile static int TC_int = 0;
@@ -18,9 +19,6 @@ static int time_remaining;
 
 void rtc_irq(void);
 void tc_irq(void);
-void rtcInit(void);
-int rtcSec(void);
-void tc(int, int);
 
 void rtc_irq(void)
 {
@@ -118,7 +116,7 @@ static void tc_init(volatile avr32_tc_t *tc)
 	tc_start(tc, TC_channel); 
 } 
 
-void rtcInit(void)
+void sysclock_init(void)
 {
 	#if __GNUC__
 	// Initialize interrupt vectors.
@@ -160,7 +158,7 @@ int rtcSec()
 }
 
 
-void tc (int time_setting, int sec)
+void sysclock_start_timer (int time_setting, int sec)
 {
 	time_remaining = (time_setting - sec) * 1000;
 	timer = 0;

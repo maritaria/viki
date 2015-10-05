@@ -1,22 +1,12 @@
-/*
- * RTC.h
- *
- * Created: 28-9-2015 9:12:37
- *  Author: Tjalling
- */ 
+#ifndef MODULES__SYSTEM_CLOCK_H_
+#define MODULES__SYSTEM_CLOCK_H_
 
-#ifndef RTC_H_
-#define RTC_H_
+//Standard C
+//ASF
+#include <asf.h>
+//Custom
+#include "macros.h"
 
-#define top_val 0
-#define TC_channel	0
-#define TC &AVR32_TC
+void sysclock_init(void);
 
-void rtc_irq(void);
-void tc_irq(void);
-void rtcInit(void);
-int rtcSec(void);
-void tc(int, int);
-
-
-#endif /* RTC_H_ */
+#endif /* MODULES__SYSTEM_CLOCK_H_ */
