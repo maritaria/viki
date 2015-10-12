@@ -6,7 +6,6 @@
 //Custom
 #include "modules/config.h"
 
-#define top_val (0)
 #define TC_channel (0)
 #define TC (&AVR32_TC)
 
@@ -16,29 +15,10 @@ volatile static uint32_t timer = 0;
 
 static int time_setting;
 static int time_remaining;
+static int mscounter = 0;
 
-void rtc_irq(void);
-void tc_irq(void);
-
-void rtc_irq(void)
-{
-	rtc_clear_interrupt(&AVR32_RTC);
-	rtc_int = 1;
-}
-
-void tc_irq(void)
-{
-	if(TC_int == 1)
-	{	
-		tc_read_sr(TC, TC_channel);
-		timer++;
-		if(timer >= time_remaining)
-		{
-			timer = 0;
-			TC_int = 0;
-		}
-	}
-}
+INTERRUPT_FUNCTION(rtc_irq);
+INTERRUPT_FUNCTION(tc_irq);
 
 static void tc_init(volatile avr32_tc_t *tc) 
 { 
@@ -118,16 +98,10 @@ static void tc_init(volatile avr32_tc_t *tc)
 
 void sysclock_init(void)
 {
-	#if __GNUC__
-	// Initialize interrupt vectors.
-	INTC_init_interrupts();
-	// Register the RTC interrupt handler to the interrupt controller.
+	Disable_global_interrupt();
+	
 	INTC_register_interrupt(&rtc_irq, AVR32_RTC_IRQ, AVR32_INTC_INT0);
 	INTC_register_interrupt(&tc_irq, AVR32_TC_IRQ0, AVR32_INTC_INT0);
-	#endif
-
-
-	Disable_global_interrupt();
 
 	if (!rtc_init(&AVR32_RTC, RTC_OSC_32KHZ, RTC_PSEL_32KHZ_1HZ))
 	{
@@ -136,25 +110,54 @@ void sysclock_init(void)
 	}
 
 	// Set top value to 0 to generate an interrupt every seconds
-	rtc_set_top_value(&AVR32_RTC, top_val);
+	rtc_set_top_value(&AVR32_RTC, 0);
 	// Enable the interrupts
 	rtc_enable_interrupt(&AVR32_RTC);
 	// Enable the RTC
 	rtc_enable(&AVR32_RTC);
-
-	cpu_irq_enable();
 
 	tc_init(TC);
 
 	Enable_global_interrupt();
 }
 
+static void rtc_irq()
+{
+	rtc_clear_interrupt(&AVR32_RTC);
+	rtc_int = 1;
+}
+
+
+static void tc_irq()
+{
+	tc_stop(TC, TC_channel);
+	if(TC_int == 1)
+	{
+		tc_read_sr(TC, TC_channel);
+		timer++;
+		if(timer >= time_remaining)
+		{
+			timer = 0;
+			TC_int = 0;
+		}
+	}
+}
+
+
 int rtcSec()
 {
 	if(rtc_int == 1)
 	{
-		return 1;
+		mscounter++;
+		if(mscounter == 5)
+		{
+			LED_Toggle(LED1);
+			mscounter = 0;
+			return 1;
+		}
+		rtc_int = 0;
 	}
+	return 0;
 }
 
 

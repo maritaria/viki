@@ -18,7 +18,7 @@ datetime_t current_time;
 void datetime_init(void)
 {
 	//Initialize datetime_t variable
-	current_time = {0};
+//	current_time = {0};
 }
 
 void datetime_current_time(datetime_t* date)

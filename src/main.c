@@ -6,11 +6,14 @@
 #include "modules/display.h"
 #include "modules/joystick.h"
 #include "modules/serial.h"
+#include "modules/system_clock.h"
 #include "modules/menu.h"
 
 void init_device(void);
 void init_modules(void);
 void run_application(void);
+
+int i;
 
 int main (void)
 {
@@ -21,6 +24,7 @@ int main (void)
 
 void init_device()
 {
+	INTC_init_interrupts();
 	irq_initialize_vectors();
 	cpu_irq_enable();
 	sleepmgr_init();
@@ -34,6 +38,7 @@ void init_modules()
 	serial_init();
 	display_init();
 	joystick_init();
+	sysclock_init();
 	menu_init();
 }
 
@@ -45,5 +50,6 @@ void run_application()
 	{
 		menu_update();
 		display_update();
+		i = rtcSec();
 	}
 }
