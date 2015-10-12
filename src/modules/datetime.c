@@ -2,7 +2,6 @@
 //Standard C
 //ASF
 #include <asf.h>
-#include <tc.h>
 //Custom
 #include "modules/config.h"
 #include "modules/system_clock.h"
