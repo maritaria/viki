@@ -103,9 +103,6 @@
 // From module: System Clock Control - UC3 A implementation
 #include <sysclk.h>
 
-// From module: TC - Timer/Counter
-#include <tc.h>
-
 // From module: USB CDC Protocol
 #include <usb_protocol_cdc.h>
 
