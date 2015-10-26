@@ -5,6 +5,7 @@
 #include "modules/display.h"
 #include "modules/joystick.h"
 #include "modules/menu.h"
+#include "modules/menus/menu_default.h"
 
 void editor_timestamp_update(editor_timestamp_data_t* editor);
 void editor_timestamp_next_field(editor_timestamp_data_t* editor);
@@ -64,16 +65,16 @@ void editor_timestamp_next_field(editor_timestamp_data_t* editor)
 {
 	switch(editor->current_field)
 	{
-		case editor_timestamp_field.date_year: editor->current_field = date_month; break;
-		case editor_timestamp_field.date_month: editor->current_field = date_day; break;
-		case editor_timestamp_field.date_day: editor->current_field = time_hour; break;
-		case editor_timestamp_field.time_hour: editor->current_field = time_minute; break;
-		case editor_timestamp_field.time_minute: editor->current_field = time_second; break;
-		case editor_timestamp_field.time_second: editor->current_field = time_millisecond; break;
-		case editor_timestamp_field.time_millisecond: editor->current_field = action_accept; break;
-		case editor_timestamp_field.action_accept: editor->current_field = action_cancel; break;
-		case editor_timestamp_field.action_cancel: editor->current_field = action_reset; break;
-		case editor_timestamp_field.action_reset: editor->current_field = date_year; break;
+		case date_year: editor->current_field = date_month; break;
+		case date_month: editor->current_field = date_day; break;
+		case date_day: editor->current_field = time_hour; break;
+		case time_hour: editor->current_field = time_minute; break;
+		case time_minute: editor->current_field = time_second; break;
+		case time_second: editor->current_field = time_millisecond; break;
+		case time_millisecond: editor->current_field = action_accept; break;
+		case action_accept: editor->current_field = action_cancel; break;
+		case action_cancel: editor->current_field = action_reset; break;
+		case action_reset: editor->current_field = date_year; break;
 		
 		default: editor->current_field = date_year; break;
 	}
@@ -83,16 +84,16 @@ void editor_timestamp_previous_field(editor_timestamp_data_t* editor)
 {
 	switch(editor->current_field)
 	{
-		case editor_timestamp_field.date_year: editor->current_field = action_reset; break;
-		case editor_timestamp_field.date_month: editor->current_field = date_year; break;
-		case editor_timestamp_field.date_day: editor->current_field = date_month; break;
-		case editor_timestamp_field.time_hour: editor->current_field = date_day; break;
-		case editor_timestamp_field.time_minute: editor->current_field = time_hour; break;
-		case editor_timestamp_field.time_second: editor->current_field = time_minute; break;
-		case editor_timestamp_field.time_millisecond: editor->current_field = time_second; break;
-		case editor_timestamp_field.action_accept: editor->current_field = time_millisecond; break;
-		case editor_timestamp_field.action_cancel: editor->current_field = action_accept; break;
-		case editor_timestamp_field.action_reset: editor->current_field = action_cancel; break;
+		case date_year: editor->current_field = action_reset; break;
+		case date_month: editor->current_field = date_year; break;
+		case date_day: editor->current_field = date_month; break;
+		case time_hour: editor->current_field = date_day; break;
+		case time_minute: editor->current_field = time_hour; break;
+		case time_second: editor->current_field = time_minute; break;
+		case time_millisecond: editor->current_field = time_second; break;
+		case action_accept: editor->current_field = time_millisecond; break;
+		case action_cancel: editor->current_field = action_accept; break;
+		case action_reset: editor->current_field = action_cancel; break;
 		
 		default: editor->current_field = date_year; break;
 	}
@@ -112,13 +113,13 @@ void editor_timestamp_click_field(editor_timestamp_data_t* editor)
 {
 	switch(editor->current_field)
 	{
-		case editor_timestamp_field.action_accept:
+		case action_accept:
 			//editor_timestamp_accept(editor);
 		break;
-		case editor_timestamp_field.action_cancel:
+		case action_cancel:
 			//editor_timestamp_cancel(editor);
 		break;
-		case editor_timestamp_field.action_reset:
+		case action_reset:
 			//editor_timestamp_reset(editor);
 		break;
 	}
@@ -128,9 +129,10 @@ void editor_timestamp_render(menu_t* menu)
 {
 	display_clear();
 	editor_timestamp_render_title(menu);
-	editor_timestamp_render_date(menu);
-	editor_timestamp_render_time(menu);
-	editor_timestamp_render_actions(menu);
+	editor_timestamp_data_t* editor = (editor_timestamp_data_t*)menu->user_data;
+	editor_timestamp_render_date(editor);
+	editor_timestamp_render_time(editor);
+	editor_timestamp_render_actions(editor);
 }
 
 void editor_timestamp_render_title(menu_t* menu)

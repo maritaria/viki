@@ -162,8 +162,7 @@ void display_print(const char* text)
 				}
 			break;
 			case '\t':
-				int nextTabStart = ((currentPos / 4) + 1) * 4;
-				for(;currentPos < nextTabStart; currentPos++)
+				for(;currentPos < ((currentPos / 4) + 1) * 4; currentPos++)
 				{
 					displayBuffer[currentLine][currentPos] = DISPLAY_SPACE;
 				}

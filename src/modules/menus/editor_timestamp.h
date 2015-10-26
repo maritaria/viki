@@ -6,6 +6,7 @@
 #include <asf.h>
 //Custom
 #include "macros.h"
+#include "modules/datetime.h"
 #include "modules/menu.h"
 
 //	    5    0    5    0.

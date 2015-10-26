@@ -3,8 +3,8 @@
 //ASF
 #include <asf.h>
 //Custom
+#include "modules/clock.h"
 #include "modules/config.h"
-#include "modules/system_clock.h"
 
 int uur = 0;
 int minuut = 0;
@@ -40,7 +40,7 @@ void datetime_increment_by_ms(int elapsed_ms)
 
 
 
-
+/*
 
 
 
@@ -76,7 +76,7 @@ void checkTargetTime(int seconde, int minuut, int uur, int targettime_uur, int t
 {
 	if(minuut == targettime_min && uur == targettime_uur && seconde - targettime_sec <= 1)
 	{
-		sysclock_start_timer(seconde, targettime_sec);
+		clock_start_timer(seconde, targettime_sec);
 	}
 }
 void updateTime(int sec, int min, int hour)
@@ -85,3 +85,4 @@ void updateTime(int sec, int min, int hour)
 	minuut = min;
 	uur = hour;
 }
+*/

@@ -2,11 +2,11 @@
 //ASF
 #include <asf.h>
 //Custom
+#include "modules/clock.h"
 #include "modules/config.h"
 #include "modules/display.h"
 #include "modules/joystick.h"
 #include "modules/serial.h"
-#include "modules/system_clock.h"
 #include "modules/menu.h"
 
 void init_device(void);
@@ -38,7 +38,7 @@ void init_modules()
 	serial_init();
 	display_init();
 	joystick_init();
-	sysclock_init();
+	clock_init();
 	menu_init();
 }
 
@@ -50,6 +50,5 @@ void run_application()
 	{
 		menu_update();
 		display_update();
-		i = rtcSec();
 	}
 }

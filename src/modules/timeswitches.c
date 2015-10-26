@@ -2,8 +2,8 @@
 //Standard C
 //ASF
 //Custom
+#include "modules/clock.h"
 #include "modules/datetime.h"
-#include "modules/system_clock.h"
 
 void* timeswitches_next_scheduled_item(void);
 void timeswitches_prepare_interrupt(void* item);
