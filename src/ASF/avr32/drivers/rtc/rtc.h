@@ -80,6 +80,7 @@
 //! The PSEL value to set the RTC source clock (after the prescaler) to 1 Hz,
 //! when using an external 32-kHz crystal.
 #define RTC_PSEL_32KHZ_1HZ    14
+#define RTC_PSEL_32KHZ_1000HZ  4
 
 //! The PSEL value to set the RTC source clock (after the prescaler) to 1.76 Hz,
 //! when using the internal RC oscillator (~ 115 kHz).

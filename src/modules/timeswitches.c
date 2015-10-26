@@ -1,7 +1,6 @@
 #include "timeswitches.h"
 //Standard C
 //ASF
-#include <tc.h>
 //Custom
 #include "modules/datetime.h"
 #include "modules/system_clock.h"

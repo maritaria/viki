@@ -2,7 +2,6 @@
 //Standard C
 //ASF
 #include <asf.h>
-#include <tc.h>
 //Custom
 #include "modules/config.h"
 #include "modules/system_clock.h"
@@ -18,7 +17,7 @@ datetime_t current_time;
 void datetime_init(void)
 {
 	//Initialize datetime_t variable
-	current_time = {0};
+//	current_time = {0};
 }
 
 void datetime_current_time(datetime_t* date)

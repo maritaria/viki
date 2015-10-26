@@ -2,159 +2,61 @@
 //Standard C
 //ASF
 #include <asf.h>
-#include <tc.h>
 //Custom
 #include "modules/config.h"
 
-#define top_val (0)
-#define TC_channel (0)
-#define TC (&AVR32_TC)
-
 volatile static int rtc_int = 0;
-volatile static int TC_int = 0;
 volatile static uint32_t timer = 0;
 
 static int time_setting;
 static int time_remaining;
+static int mscounter = 0;
 
-void rtc_irq(void);
-void tc_irq(void);
+#define CLOCK_HACK_COUNT (7)
+const int clock_hack[CLOCK_HACK_COUNT] = {15,16,15,16,15,16,15};
+volatile int clock_hack_index = 0;
 
-void rtc_irq(void)
-{
-	rtc_clear_interrupt(&AVR32_RTC);
-	rtc_int = 1;
-}
-
-void tc_irq(void)
-{
-	if(TC_int == 1)
-	{	
-		tc_read_sr(TC, TC_channel);
-		timer++;
-		if(timer >= time_remaining)
-		{
-			timer = 0;
-			TC_int = 0;
-		}
-	}
-}
-
-static void tc_init(volatile avr32_tc_t *tc) 
-{ 
-	// Options for waveform generation. 
-	static const tc_waveform_opt_t waveform_opt = 
-	{ 
-		// Channel selection. 
-		.channel  = TC_channel,
-		// Software trigger effect on TIOB. 
-		.bswtrg   = TC_EVT_EFFECT_NOOP, 
-		// External event effect on TIOB. 
-		.beevt    = TC_EVT_EFFECT_NOOP, 
-		// RC compare effect on TIOB. 
-		.bcpc     = TC_EVT_EFFECT_NOOP, 
-		// RB compare effect on TIOB.
-		.bcpb     = TC_EVT_EFFECT_NOOP, 
-		// Software trigger effect on TIOA.
-		.aswtrg   = TC_EVT_EFFECT_NOOP, 
-		// External event effect on TIOA. 
-		.aeevt    = TC_EVT_EFFECT_NOOP, 
-		// RC compare effect on TIOA. 
-		.acpc     = TC_EVT_EFFECT_NOOP, 
-		/* 
-		 * RA compare effect on TIOA. 
-		 * (other possibilities are none, set and clear). 
-		 */ 
-		.acpa     = TC_EVT_EFFECT_NOOP, 
-		/* 
-		 * Waveform selection: Up mode with automatic trigger(reset) 
-		 * on RC compare. 
-		 */ 
-		.wavsel   = TC_WAVEFORM_SEL_UP_MODE_RC_TRIGGER, 
-		// External event trigger enable.
-		.enetrg   = false, 
-		// External event selection. 
-		.eevt     = 0, 
-		// External event edge selection. 
-		.eevtedg  = TC_SEL_NO_EDGE, 
-		// Counter disable when RC compare. 
-		.cpcdis   = false, 
-		// Counter clock stopped with RC compare. 
-		.cpcstop  = false, 
-		// Burst signal selection. 
-		.burst    = false, 
-		// Clock inversion. 
-		.clki     = false, 
-		// Internal source clock 3, connected to fPBA / 8. 
-		.tcclks   = TC_CLOCK_SOURCE_TC3 
-	}; 
- 
-	// Options for enabling TC interrupts 
-	static const tc_interrupt_t tc_interrupt = 
-	{ 
-		.etrgs = 0, 
-		.ldrbs = 0, 
-		.ldras = 0, 
-		.cpcs  = 1, // Enable interrupt on RC compare alone 
-		.cpbs  = 0, 
-		.cpas  = 0, 
-		.lovrs = 0, 
-		.covfs = 0 
-	}; 
-	// Initialize the timer/counter. 
-	tc_init_waveform(tc, &waveform_opt); 
-	/* 
-	 * Set the compare triggers. 
-	 * We configure it to count every 1 milliseconds. 
-	 * We want: (1 / (fPBA / 8)) * RC = 1 ms, hence RC = (fPBA / 8) / 1000 
-	 * to get an interrupt every 10 ms. 
-	 */ 
-	tc_write_rc(tc, TC_channel, (sysclk_get_pba_hz() / 8 / 1000)); 
-	// configure the timer interrupt 
-	tc_configure_interrupts(tc, TC_channel, &tc_interrupt); 
-	// Start the timer/counter. 
-	tc_start(tc, TC_channel); 
-} 
-
+INTERRUPT_FUNCTION(rtc_irq); 
+bool lowtime = false;
 void sysclock_init(void)
 {
-	#if __GNUC__
-	// Initialize interrupt vectors.
-	INTC_init_interrupts();
-	// Register the RTC interrupt handler to the interrupt controller.
-	INTC_register_interrupt(&rtc_irq, AVR32_RTC_IRQ, AVR32_INTC_INT0);
-	INTC_register_interrupt(&tc_irq, AVR32_TC_IRQ0, AVR32_INTC_INT0);
-	#endif
-
-
 	Disable_global_interrupt();
+	
+	INTC_register_interrupt(&rtc_irq, AVR32_RTC_IRQ, AVR32_INTC_INT0);
 
-	if (!rtc_init(&AVR32_RTC, RTC_OSC_32KHZ, RTC_PSEL_32KHZ_1HZ))
+	if (!rtc_init(&AVR32_RTC, RTC_OSC_32KHZ, 0))
 	{
 		//usart_write_line(&AVR32_USART0, "Error initializing the RTC\r\n");
 		while(1);
 	}
 
-	// Set top value to 0 to generate an interrupt every seconds
-	rtc_set_top_value(&AVR32_RTC, top_val);
+	// Set top value to 0 to generate an interrupt every tick
+	rtc_set_top_value(&AVR32_RTC, 15);
 	// Enable the interrupts
 	rtc_enable_interrupt(&AVR32_RTC);
 	// Enable the RTC
 	rtc_enable(&AVR32_RTC);
 
-	cpu_irq_enable();
-
-	tc_init(TC);
-
 	Enable_global_interrupt();
+}
+
+static void rtc_irq()
+{
+	rtc_clear_interrupt(&AVR32_RTC);
+	rtc_int ++;
+	if(rtc_int >= 1)
+	{
+		LED_Toggle(LED1);
+		(&AVR32_RTC)->top = clock_hack[clock_hack_index];
+		clock_hack_index++;
+		if(clock_hack_index >= CLOCK_HACK_COUNT)
+			clock_hack_index = 0;
+		rtc_int = 0;
+	}
 }
 
 int rtcSec()
 {
-	if(rtc_int == 1)
-	{
-		return 1;
-	}
 }
 
 
@@ -162,5 +64,4 @@ void sysclock_start_timer (int time_setting, int sec)
 {
 	time_remaining = (time_setting - sec) * 1000;
 	timer = 0;
-	TC_int = 1;
 }
