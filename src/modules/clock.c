@@ -5,9 +5,12 @@
 //Custom
 #include "modules/config.h"
 
-#define CLOCK_HACK_COUNT (7)
-const int clock_hack[CLOCK_HACK_COUNT] = {15,16,15,16,15,16,15};
+#define CLOCK_HACK_COUNT (1)
+const int clock_hack[CLOCK_HACK_COUNT] = {20};
+//const int clock_hack[CLOCK_HACK_COUNT] = {15,16,15,16,15,16,15};
+//const int clock_hack[CLOCK_HACK_COUNT] = {15,16,15,16,15,16,15};
 volatile int clock_hack_index = 0;
+volatile float behind = 0;
 
 INTERRUPT_FUNCTION(rtc_irq);
 static void rtc_hack(void);
@@ -30,10 +33,24 @@ static void rtc_irq()
 {
 	rtc_clear_interrupt(&AVR32_RTC);
 	rtc_hack();
+	LED_Toggle(LED1);
 }
 
 static void rtc_hack()
 {
+	//behind += 0.3678297911;
+	behind += 0.3678397911;
+	//behind += 0.3636071261;
+	if (behind >= 1)
+	{
+		behind -= 1;
+		(&AVR32_RTC)->top = 16;
+	}
+	else
+	{
+		(&AVR32_RTC)->top = 15;
+	}
+	return;
 	(&AVR32_RTC)->top = clock_hack[clock_hack_index];
 	clock_hack_index++;
 	if(clock_hack_index >= CLOCK_HACK_COUNT)
