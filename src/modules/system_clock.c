@@ -12,6 +12,10 @@ static int time_setting;
 static int time_remaining;
 static int mscounter = 0;
 
+#define CLOCK_HACK_COUNT (7)
+const int clock_hack[CLOCK_HACK_COUNT] = {15,16,15,16,15,16,15};
+volatile int clock_hack_index = 0;
+
 INTERRUPT_FUNCTION(rtc_irq); 
 bool lowtime = false;
 void sysclock_init(void)
@@ -43,10 +47,10 @@ static void rtc_irq()
 	if(rtc_int >= 1)
 	{
 		LED_Toggle(LED1);
-		if ((&AVR32_RTC)->top == 15)
-			(&AVR32_RTC)->top = 16;
-		else
-			(&AVR32_RTC)->top = 15;
+		(&AVR32_RTC)->top = clock_hack[clock_hack_index];
+		clock_hack_index++;
+		if(clock_hack_index >= CLOCK_HACK_COUNT)
+			clock_hack_index = 0;
 		rtc_int = 0;
 	}
 }
