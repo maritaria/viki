@@ -16,6 +16,25 @@ DEFINE_TYPE(struct, display_settings_t) {
 	bool inverted;
 };
 
+#define DISPLAY_SPACE (' ')
+#define DISPLAY_FILL (0x1F)
+
+#define DISPLAY_ARROW_LEFT (0xE1)
+#define DISPLAY_ARROW_RIGHT (0xDF)
+#define DISPLAY_ARROW_UP (0xDE)
+#define DISPLAY_ARROW_DOWN (0xE0)
+
+#define DISPLAY_FULL_ARROW_LEFT (0x10)
+#define DISPLAY_FULL_ARROW_RIGHT (0x11)
+#define DISPLAY_FULL_ARROW_UP (0x1A)
+#define DISPLAY_FULL_ARROW_DOWN (0x1B)
+
+#define DISPLAY_LOAD_1 (0xDA)
+#define DISPLAY_LOAD_2 (0xD5)
+#define DISPLAY_LOAD_3 (0xD6)
+#define DISPLAY_LOAD_4 (0xD7)
+#define DISPLAY_LOAD_5 (0xD6)
+
 /* Initializes the display */
 bool display_init(void);
 /* Updates the display to the buffered data */

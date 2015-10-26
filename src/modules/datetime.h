@@ -7,14 +7,14 @@
 //Custom
 #include "macros.h"
 
-DEFINE_TYPE(struct, datetime_t){
-	int ms,
-	int s,
-	int m,
-	int h,
-	int d,
-	int m,
-	int y,
+DEFINE_TYPE(struct, datetime_t) {
+	int year;
+	int month;
+	int day;
+	int hour;
+	int minute;
+	int second;
+	int millisecond;
 };
 
 void datetime_init(void);

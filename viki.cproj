@@ -487,6 +487,12 @@
     <Compile Include="src\modules\menus\item_submenu.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\menus\editor_timestamp.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\editor_timestamp.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\menus\menu_default.c">
       <SubType>compile</SubType>
     </Compile>

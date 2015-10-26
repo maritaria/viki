@@ -23,7 +23,7 @@ void datetime_init(void)
 
 void datetime_current_time(datetime_t* date)
 {
-	date->d = current_time.d;
+	date->day = current_time.day;
 	//ETC...
 }
 

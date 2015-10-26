@@ -156,10 +156,17 @@ void display_print(const char* text)
 				keepGoing = false;
 			break;
 			case '\n':
-				currentPos = DISPLAY_WIDTH;
+				for (; currentPos < DISPLAY_WIDTH; currentPos++)
+				{
+					displayBuffer[currentLine][currentPos] = DISPLAY_SPACE;	
+				}
 			break;
 			case '\t':
-				currentPos = ((currentPos / 4) + 1) * 4;
+				int nextTabStart = ((currentPos / 4) + 1) * 4;
+				for(;currentPos < nextTabStart; currentPos++)
+				{
+					displayBuffer[currentLine][currentPos] = DISPLAY_SPACE;
+				}
 			break;
 			case '\r':
 				currentPos = 0;

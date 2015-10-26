@@ -24,7 +24,6 @@ DEFINE_TYPE(struct, menu_t) {
 	char* default_title;
 	menu_item_t* first_item;
 	void* user_data;
-	void* update_data;
 	
 	char* (*get_title)(menu_t*);
 	void (*tick)(menu_t*);
