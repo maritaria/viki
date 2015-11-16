@@ -15,7 +15,7 @@ DEFINE_TYPE(struct, timeswitch_config_t) {
 	bool enabled;
 	uint32_t timestamp;
 	uint32_t repeat_interval;
-	uint16_t repeat_count;
+	int16_t repeat_count;
 	timeswitch_behaviour behaviour;
 };
 
