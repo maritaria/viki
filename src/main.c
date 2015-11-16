@@ -42,6 +42,7 @@ void init_modules()
 	joystick_init();
 	clock_init();
 	menu_init(); 
+	datetime_init();
 	timeswitches_init();
 }
 

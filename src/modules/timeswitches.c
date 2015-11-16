@@ -36,7 +36,7 @@ void timeswitches_update_specific(timeswitch_config_t timeswitch)
 
 bool should_enable_switch(timeswitch_config_t timeswitch)
 {
-	return timeswitch.enabled && (timeswitch.timestamp == datetime_get_seconds()) && (timeswitch.timestamp_milliseconds == datetime_get_milliseconds());
+	return timeswitch.enabled && (timeswitch.timestamp_milliseconds == datetime_get_milliseconds());
 }
 
 void apply_switch(timeswitch_config_t timeswitch)
