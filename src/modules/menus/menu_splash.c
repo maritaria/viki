@@ -26,7 +26,7 @@ void menu_splash_render(menu_t* menu)
 {
 	display_clear();
 	struct calendar_date date = {0};
-	datetime_get_time(&date);
+	calendar_timestamp_to_date(datetime_get_seconds(), &date);
 	uint16_t milliseconds = datetime_get_milliseconds();
-	display_printf(20, "%2i:%2i:%2i.%4i", date.hour, date.minute, date.second, milliseconds);
+	display_printf(20, "%2ih%2im%2is%3ims", date.hour, date.minute, date.second, milliseconds);
 }

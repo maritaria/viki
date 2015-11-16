@@ -4,10 +4,12 @@
 //Custom
 #include "modules/clock.h"
 #include "modules/config.h"
+#include "modules/datetime.h"
 #include "modules/display.h"
 #include "modules/joystick.h"
-#include "modules/serial.h"
 #include "modules/menu.h"
+#include "modules/serial.h"
+#include "modules/timeswitches.h"
 
 void init_device(void);
 void init_modules(void);
@@ -39,7 +41,8 @@ void init_modules()
 	display_init();
 	joystick_init();
 	clock_init();
-	menu_init();
+	menu_init(); 
+	timeswitches_init();
 }
 
 void run_application()

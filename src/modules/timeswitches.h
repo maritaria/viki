@@ -13,13 +13,14 @@ DEFINE_TYPE(enum, timeswitch_behaviour) { on, off, toggle };
 
 DEFINE_TYPE(struct, timeswitch_config_t) {
 	bool enabled;
-	int timestamp;
+	uint16_t timestamp;
+	uint8_t timestamp_milliseconds;
 	int repeat_interval;
 	int repeat_count;
 	timeswitch_behaviour behaviour;
 };
 
 void timeswitches_init(void);
-void timeswitches_rtc_poll(void);
+void timeswitches_update(void);
 
 #endif /* TIMESWITCHES_H_ */

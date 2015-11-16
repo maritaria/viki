@@ -41,7 +41,7 @@ DEFINE_TYPE(enum, menu_enum) {
 			help_alerts_repeat,
 };
 
-#define TIMER_CONFIG_COUNT 4
+#define TIMER_CONFIG_COUNT (4)
 
 DEFINE_TYPE(struct, config_t) {
 	timeswitch_config_t timers[TIMER_CONFIG_COUNT];
