@@ -145,7 +145,7 @@ void editor_timestamp_render_date(editor_timestamp_data_t* editor)
 	display_printf(20, "Date: %.4i-%.2i-%.2i    ",
 		editor->user_input.year,
 		editor->user_input.month,
-		editor->user_input.day
+		editor->user_input.date
 	);
 }
 
@@ -154,8 +154,8 @@ void editor_timestamp_render_time(editor_timestamp_data_t* editor)
 	display_printf(20, "Time: %.2i:%.2i:%.2i %.3ims",
 		editor->user_input.hour,
 		editor->user_input.minute,
-		editor->user_input.second,
-		editor->user_input.millisecond
+		editor->user_input.second
+		/* editor->user_input.millisecond */
 	);
 }
 

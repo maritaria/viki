@@ -7,8 +7,6 @@
 #include "modules/menu.h"
 #include "modules/menus/item_submenu.h"
 
-
-
 void menu_default_update(menu_t* menu);
 void menu_default_handle_input(menu_t* menu, menu_state_t* state);
 void menu_default_select_previous(menu_t* menu, menu_state_t* state);

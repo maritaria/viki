@@ -4,6 +4,7 @@
 //Standard C
 //ASF
 #include <asf.h>
+#include <calendar.h>
 //Custom
 #include "macros.h"
 #include "modules/datetime.h"
@@ -23,7 +24,7 @@ DEFINE_TYPE(enum, editor_timestamp_field) {
 
 DEFINE_TYPE(struct, editor_timestamp_data_t) {
 	/* The datetime entered by the user*/
-	datetime_t user_input;
+	struct calendar_date user_input;
 	/* True if user accepted the input, false if user canceled action*/
 	bool user_accepted;
 	/* Whether the user is allowed to cancel */

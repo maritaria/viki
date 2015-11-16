@@ -8,6 +8,7 @@
 #include "modules/config.h"
 #include "modules/display.h"
 #include "modules/menus/menu_default.h"
+#include "modules/menus/menu_splash.h"
 #include "modules/menus/item_default.h"
 #include "modules/menus/item_submenu.h"
 
@@ -78,7 +79,9 @@ bool menu_init()
 	menu_add_item(usb_settings, "Disable");
 	menu_add_item(usb_settings, "Restart");
 	
-	
+	menu_t* splash = menu_add_submenu(main_menu, "Time");
+	splash->tick = menu_splash_tick;
+		
 	/*splash_screen,
 	idle,
 	menu,

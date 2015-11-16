@@ -4,22 +4,15 @@
 //Standard C
 //ASF
 #include <asf.h>
+#include <calendar.h>
 //Custom
 #include "macros.h"
 
-DEFINE_TYPE(struct, datetime_t) {
-	int year;
-	int month;
-	int day;
-	int hour;
-	int minute;
-	int second;
-	int millisecond;
-};
-
 void datetime_init(void);
-void datetime_increment_by_ms(int elapsed_ms);
-void datetime_current_time(datetime_t* date);
+void datetime_get_time(struct calendar_date* date);
+uint16_t datetime_get_milliseconds();
+void datetime_increment_by_millisecond(void);
+void datetime_tick(void);
 
 
 #endif /* MODULES__DATETIME_H_ */

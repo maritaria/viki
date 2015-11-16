@@ -8,5 +8,6 @@
 #include "macros.h"
 
 void clock_init(void);
+void clock_update(void);
 
 #endif /* MODULES__CLOCK_H_ */

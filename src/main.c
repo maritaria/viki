@@ -50,5 +50,6 @@ void run_application()
 	{
 		menu_update();
 		display_update();
+		clock_update();
 	}
 }

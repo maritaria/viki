@@ -1,88 +1,45 @@
 #include "modules/datetime.h"
 //Standard C
+#include <string.h>
 //ASF
 #include <asf.h>
+#include <calendar.h>
 //Custom
 #include "modules/clock.h"
 #include "modules/config.h"
 
-int uur = 0;
-int minuut = 0;
-int seconde = 0;
-
-int rtc;
-
-datetime_t current_time;
+uint16_t milliseconds = 0;
+struct calendar_date current_time = {0};
 
 void datetime_init(void)
 {
-	//Initialize datetime_t variable
-//	current_time = {0};
+	//TODO: Load timestamp from flash :D
+	calendar_timestamp_to_date(0, &current_time);
 }
 
-void datetime_current_time(datetime_t* date)
+void datetime_get_time(struct calendar_date* date)
 {
-	date->day = current_time.day;
-	//ETC...
+	memmove(date, &current_time, sizeof(struct calendar_date));
 }
 
-void datetime_increment_by_ms(int elapsed_ms)
+uint16_t datetime_get_milliseconds()
 {
-	//Called from sysclock
-	//Increment the current datetime by the given number of milliseconds
+	return milliseconds;
 }
 
-
-
-
-
-
-
-
-
-/*
-
-
-
-void Klok(void);
-void checkTargetTime(int, int, int, int, int, int);
-void updateTime(int, int, int);
-
-
-void Klok()
+void datetime_increment_by_millisecond()
 {
-	rtc = rtcSec();
-	if(rtc == 1)
+	milliseconds++;
+	if (milliseconds >= 1000)
 	{
-		seconde++;
+		milliseconds -= 1000;
+		LED_Toggle(LED2);
+		calendar_add_second_to_date(&current_time);
 	}
 	
-	if(seconde == 60){
-		minuut++;
-		seconde = 0;
-		if(minuut == 60)
-		{
-			uur++;
-			minuut = 0;
-			if(uur == 24)
-			{
-				uur = 0;
-			}
-		}
-	}
 }
 
-void checkTargetTime(int seconde, int minuut, int uur, int targettime_uur, int targettime_min, int targettime_sec)
+void datetime_tick()
 {
-	if(minuut == targettime_min && uur == targettime_uur && seconde - targettime_sec <= 1)
-	{
-		clock_start_timer(seconde, targettime_sec);
-	}
+	//TODO: Save timestamp to flash :D
 }
-void updateTime(int sec, int min, int hour)
-{
-	seconde = sec;
-	minuut = min;
-	uur = hour;
-}
-*/
