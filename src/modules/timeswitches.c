@@ -14,21 +14,21 @@ void timeswitches_init()
 	sw->repeat_count = 10;
 	sw->repeat_interval = 1000;
 }
-void timeswitches_update_specific(timeswitch_config_t timeswitch);
+
+void timeswitches_update_specific(timeswitch_config_t* timeswitch);
+bool should_enable_switch(timeswitch_config_t* timeswitch);
+void apply_switch(timeswitch_config_t* timeswitch);
+void update_interval(timeswitch_config_t* timeswitch);
 
 void timeswitches_update()
 {
 	for (int i = 0; i < TIMER_CONFIG_COUNT; i++)
 	{
-		timeswitches_update_specific(CONFIG.timers[i]);
+		timeswitches_update_specific(&CONFIG.timers[i]);
 	}
 }
 
-bool should_enable_switch(timeswitch_config_t timeswitch);
-void apply_switch(timeswitch_config_t timeswitch);
-void update_interval(timeswitch_config_t timeswitch);
-
-void timeswitches_update_specific(timeswitch_config_t timeswitch)
+void timeswitches_update_specific(timeswitch_config_t* timeswitch)
 {
 	if (should_enable_switch(timeswitch))
 	{
@@ -37,21 +37,21 @@ void timeswitches_update_specific(timeswitch_config_t timeswitch)
 	}
 }
 
-bool should_enable_switch(timeswitch_config_t timeswitch)
+bool should_enable_switch(timeswitch_config_t* timeswitch)
 {
-	return timeswitch.enabled && (timeswitch.timestamp == datetime_get_milliseconds());
+	return timeswitch->enabled && (timeswitch->timestamp == datetime_get_milliseconds());
 }
 
-void apply_switch(timeswitch_config_t timeswitch)
+void apply_switch(timeswitch_config_t* timeswitch)
 {
 	LED_Toggle(LED3);
 }
 
-void update_interval(timeswitch_config_t timeswitch)
+void update_interval(timeswitch_config_t* timeswitch)
 {
-	if(timeswitch.repeat_count > 0)
+	if(timeswitch->repeat_count > 0)
 	{
-		timeswitch.timestamp += timeswitch.repeat_interval;
-		timeswitch.repeat_count --;
+		timeswitch->timestamp += timeswitch->repeat_interval;
+		timeswitch->repeat_count --;
 	}
 }
