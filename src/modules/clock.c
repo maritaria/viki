@@ -44,7 +44,7 @@ void clock_update()
 	/* start conversion */
 	adc_start(adc);
 	/* get value for sensor */
-	uint16_t raw = adc_get_value(adc, ADC_POTENTIOMETER_CHANNEL);//magic = 639
+	uint16_t raw = 639;// adc_get_value(adc, ADC_POTENTIOMETER_CHANNEL);//magic = 639
 	potvalue = (float)raw / (float)ADC_MAX_VALUE;
 	potvalue -= 0.5;
 	potvalue *= 4;
@@ -77,14 +77,17 @@ static void rtc_hack()
 	float f;//0,3837498
 	char b[] = {0x3E, 0xC4, 0x7A, 0xDC};
 	memcpy(&f, &b, sizeof(float));
+	//*/
 	//potvalue 38 51 19 A7
 	//endvalue 3E C4 7A DC
-	*/
+	
 	//behind += hardcodedpot;potvalue;
 	//behind += 0.3837 + potvalue;
 	double delta = 0.3837 + potvalue;
 	float delta2 = 0.3837 + potvalue;
-	behind += 0.38374985337;
+	//behind += 0.38374985337;
+	behind += delta;
+	//behind += f;
 	if (behind >= 1)
 	{
 		behind -= 1;
