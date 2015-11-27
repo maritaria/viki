@@ -509,6 +509,12 @@
     <Compile Include="src\modules\menus\editor_timestamp.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\menus\menu_alert.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\menu_alert.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\menus\menu_default.c">
       <SubType>compile</SubType>
     </Compile>

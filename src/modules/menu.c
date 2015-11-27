@@ -7,10 +7,12 @@
 //Custom
 #include "modules/config.h"
 #include "modules/display.h"
+#include "modules/menus/menu_alert.h"
 #include "modules/menus/menu_default.h"
 #include "modules/menus/menu_splash.h"
 #include "modules/menus/item_default.h"
 #include "modules/menus/item_submenu.h"
+
 
 volatile menu_t* active_menu_stack[MAXIMUM_ACTIVE_MENUS] = {0};
 volatile int active_menu_index = -1;
@@ -19,16 +21,20 @@ menu_t* menu_create_empty(void);
 void menu_create_state(menu_t* menu);
 void menu_create_submenu_item(const char* defaultTitle, menu_t* parentMenu, menu_t* menu);
 
+void testfunctie(menu_item_t* item){
+	item = NULL;
+}
+
 bool menu_init()
 {
 	menu_t* main_menu = menu_create("Main menu");
 	
 	menu_t* alert_list = menu_add_submenu(main_menu, "Configure alerts");
 	
-	menu_t* alert_1 = menu_add_submenu(alert_list, "Alert 1");
-	menu_t* alert_2 = menu_add_submenu(alert_list, "Alert 2");
+	generate_alert_menu(alert_list, &CONFIG.timers[0],"Alert 1");
 	
-	menu_t* alert_edit_start = menu_add_submenu(alert_1, "Start");
+	
+	/*menu_t* alert_edit_start = menu_add_submenu(alert_1, "Start");
 	menu_add_item(alert_edit_start, "Yesterday");
 	menu_add_item(alert_edit_start, "Today");
 	menu_add_item(alert_edit_start, "Tomorrow");
@@ -58,6 +64,7 @@ bool menu_init()
 	menu_add_item(alert_1, "Enable");
 	menu_add_item(alert_1, "Disable");
 	menu_add_item(alert_1, "Clear settings");
+	*/
 	
 	menu_t* usb_settings = menu_add_submenu(main_menu, "USB Settings");
 	
@@ -78,6 +85,10 @@ bool menu_init()
 	menu_add_item(usb_settings, "Enable");
 	menu_add_item(usb_settings, "Disable");
 	menu_add_item(usb_settings, "Restart");
+	
+	menu_t* test = menu_add_submenu(main_menu, "Test");
+	menu_item_t* testitem = menu_add_item(test, "test1");
+	testitem->on_click = testfunctie;
 	
 	menu_t* splash = menu_add_submenu(main_menu, "Time");
 	splash->tick = menu_splash_tick;
