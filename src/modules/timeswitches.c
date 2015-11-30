@@ -14,6 +14,7 @@ void timeswitches_init()
 	sw->repeat_count = -1;
 	sw->repeat_interval = 1000;
 	sw->behaviour = toggle;
+	sw->output = 3;
 }
 
 void timeswitches_update_specific(timeswitch_config_t* timeswitch);
@@ -45,12 +46,54 @@ bool should_enable_switch(timeswitch_config_t* timeswitch)
 
 void apply_switch(timeswitch_config_t* timeswitch)
 {
-	switch(timeswitch->behaviour)
+	switch(timeswitch->output)
 	{
-		case on: LED_On(LED3); break;
-		case off: LED_Off(LED3); break;
-		case toggle: LED_Toggle(LED3); break;
+		case 1: 
+		{
+			switch(timeswitch->behaviour)
+			{
+				case on: LED_On(LED1); break;
+				case off: LED_Off(LED1); break;
+				case toggle: LED_Toggle(LED1); break;
+			}
+			break;
+		}
+		
+		case 2:
+		{
+			switch(timeswitch->behaviour)
+			{
+				case on: LED_On(LED2); break;
+				case off: LED_Off(LED2); break;
+				case toggle: LED_Toggle(LED2); break;
+			}
+			break;
+		}
+		
+		case 3:
+		{
+			switch(timeswitch->behaviour)
+			{
+				case on: LED_On(LED3); break;
+				case off: LED_Off(LED3); break;
+				case toggle: LED_Toggle(LED3); break;
+			}
+			break;
+		}
+		
+		case 4:
+		{
+			switch(timeswitch->behaviour)
+			{
+				case on: LED_On(LED4); break;
+				case off: LED_Off(LED4); break;
+				case toggle: LED_Toggle(LED4); break;
+			}
+			break;
+		}
+		
 	}
+	
 }
 
 void update_interval(timeswitch_config_t* timeswitch)

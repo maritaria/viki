@@ -17,6 +17,7 @@ DEFINE_TYPE(struct, timeswitch_config_t) {
 	uint32_t repeat_interval;
 	int16_t repeat_count;
 	timeswitch_behaviour behaviour;
+	int16_t output;
 };
 
 void timeswitches_init(void);
