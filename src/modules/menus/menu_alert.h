@@ -8,8 +8,9 @@
 #include "macros.h"
 #include "modules/menu.h"
 #include "modules/timeswitches.h"
+#include "modules/config.h"
 
-menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, const char* menu_title);
+menu_t* generate_alerts_menu(menu_t* parentMenu, config_t* config);	
 
 
 #endif /* MODULES__MENUS__MENU_ALERT_H_ */

@@ -29,42 +29,7 @@ bool menu_init()
 {
 	menu_t* main_menu = menu_create("Main menu");
 	
-	menu_t* alert_list = menu_add_submenu(main_menu, "Configure alerts");
-	
-	generate_alert_menu(alert_list, &CONFIG.timers[0],"Alert 1");
-	
-	
-	/*menu_t* alert_edit_start = menu_add_submenu(alert_1, "Start");
-	menu_add_item(alert_edit_start, "Yesterday");
-	menu_add_item(alert_edit_start, "Today");
-	menu_add_item(alert_edit_start, "Tomorrow");
-	
-	menu_t* alert_edit_interval = menu_add_submenu(alert_1, "Interval");
-	menu_add_item(alert_edit_interval, "1d");
-	menu_add_item(alert_edit_interval, "1h");
-	menu_add_item(alert_edit_interval, "1m30s");
-	
-	menu_t* alert_edit_repeat = menu_add_submenu(alert_1, "Repeat");
-	menu_add_item(alert_edit_repeat, "No repeat");
-	menu_add_item(alert_edit_repeat, "1x");
-	menu_add_item(alert_edit_repeat, "2x");
-	menu_add_item(alert_edit_repeat, "3x");
-	
-	menu_t* alert_edit_target = menu_add_submenu(alert_1, "Target");
-	menu_add_item(alert_edit_target, "Output 1");
-	menu_add_item(alert_edit_target, "Output 2");
-	menu_add_item(alert_edit_target, "Output 3");
-	menu_add_item(alert_edit_target, "Output 4");
-	
-	menu_t* alert_edit_behavior = menu_add_submenu(alert_1, "Behavior");
-	menu_add_item(alert_edit_behavior, "Turn off");
-	menu_add_item(alert_edit_behavior, "Turn on");
-	menu_add_item(alert_edit_behavior, "Toggle output");
-	
-	menu_add_item(alert_1, "Enable");
-	menu_add_item(alert_1, "Disable");
-	menu_add_item(alert_1, "Clear settings");
-	*/
+	generate_alerts_menu(main_menu, &CONFIG);
 	
 	menu_t* usb_settings = menu_add_submenu(main_menu, "USB Settings");
 	
