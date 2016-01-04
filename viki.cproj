@@ -497,6 +497,12 @@
     <Compile Include="src\modules\menus\editor_integer.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\menus\editor_interval.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\editor_interval.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\menus\item_default.c">
       <SubType>compile</SubType>
     </Compile>
