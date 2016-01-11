@@ -11,6 +11,7 @@
 #include "modules/menu.h"
 #include "modules/serial.h"
 #include "modules/timeswitches.h"
+
 #define TIMER_CONFIG_COUNT (4)
 
 DEFINE_TYPE(struct, config_t) {
