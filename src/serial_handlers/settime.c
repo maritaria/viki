@@ -8,10 +8,8 @@
 
 void serial_handler_settime(char identifier, char type, char* body, int body_length)
 {
-	char responseBody[4] = {0};
-	uint32_t millis = datetime_get_milliseconds();
-	
-	memcpy(responseBody, &millis, sizeof(uint32_t));
-	
-	serial_send_packet(identifier, type, responseBody, 4);
+	uint32_t millis = 0;
+	memcpy(&millis, body, sizeof(uint32_t));
+	datetime_set_time(millis);
+	serial_send_packet(identifier, type, NULL, 0);
 }
