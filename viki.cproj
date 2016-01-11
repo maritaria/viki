@@ -468,9 +468,16 @@
     <Folder Include="src\config\" />
     <Folder Include="src\modules" />
     <Folder Include="src\modules\menus" />
+    <Folder Include="src\serial_handlers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\ASF\avr32\drivers\adc\adc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\echo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\echo.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\ASF\avr32\drivers\adc\adc.h">
