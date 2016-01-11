@@ -5,37 +5,30 @@
  *  Author: Tjalling
  */ 
 #include "flashc.h"
-
+#include "modules/config.h"
 
 typedef const struct {
-	uint8_t  var8;
-	uint16_t var16;
-	uint8_t  var8_3[3];
-	uint32_t var32;
+	timeswitch_config_t switches[TIMER_CONFIG_COUNT];
 } nvram_data_t;
 
 #if defined (__GNUC__)
-__attribute__((__section__(".flash_nvram")))
+__attribute__((__section__(".userpage")))
 #endif
 static nvram_data_t flash_nvram_data;
 #if defined (__ICCAVR32__)
-@ "FLASH_NVRAM"
+@ "USERDATA32_C"
 #endif
 ;
 
-void test_func();
-void test_func_twee(nvram_data_t *);
-
-void test_func()
+void flash_save_next()
 {
-	test_func_twee(&flash_nvram_data);
-}
-
-void test_func_twee(nvram_data_t *nvram_data)
-{
+	flashc_lock_all_regions(false);
+	static int i = 0;
 	uint8_t test = 10;
-	flashc_memcpy((void	*)&nvram_data->var8, &test, sizeof(test), true);
-	test = 23;
-	test = nvram_data->var8;
-	
+	flashc_memcpy((void*)&(flash_nvram_data.switches[i]), &CONFIG.timers[i], sizeof(timeswitch_config_t), true);
+	i++;
+	if(i >= 4)
+		i = 0;
+			
+	flashc_lock_all_regions(true);	
 }

@@ -45,15 +45,22 @@ void init_modules()
 	menu_init(); 
 	datetime_init();
 	timeswitches_init();
-	test_func();
 }
 
 void run_application()
 {
 	display_clear();
 	display_print("Application started");
+	display_printf(20, "%8i", sizeof(config_t));
+	int i = 0;
 	while(true)
 	{
+		flash_save_next();
+		i++;
+		if(datetime_get_milliseconds() > 1000)
+		{
+			i = 0;
+		}
 		menu_update();
 		display_update();
 		clock_update();

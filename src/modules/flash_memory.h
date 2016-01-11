@@ -9,7 +9,7 @@
 #ifndef FLASH_MEMORY_H_
 #define FLASH_MEMORY_H_
 
-void test_func();
+void flash_save_next();
 
 
 
