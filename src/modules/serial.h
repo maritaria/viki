@@ -15,4 +15,9 @@ char serial_calculate_checksum(char* body, int body_length);
 void serial_cdc_dtr_changed(uint8_t port, bool enabled);
 void serial_send_packet(char identifier, char type, char* body, int body_length);
 
+
+#define PACKET_TYPE_ECHO (2)
+#define PACKET_TYPE_GET_TIME (3)
+#define PACKET_TYPE_SET_TIME (4)
+
 #endif /* MODULES__SERIAL_H_ */

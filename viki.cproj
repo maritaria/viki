@@ -480,6 +480,18 @@
     <Compile Include="src\serial_handlers\echo.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\serial_handlers\gettime.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\gettime.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\settime.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\settime.h">
+      <SubType>compile</SubType>
+    </Compile>
     <None Include="src\ASF\avr32\drivers\adc\adc.h">
       <SubType>compile</SubType>
     </None>

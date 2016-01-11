@@ -5,6 +5,8 @@
 //Modules
 #include "modules/config.h"
 #include "serial_handlers/echo.h"
+#include "serial_handlers/gettime.h"
+#include "serial_handlers/settime.h"
 
 bool serial_init(void)
 {
@@ -236,5 +238,12 @@ char serial_calculate_checksum(char* body, int body_length)
 
 void serial_handle_packet()
 {
-	serial_handler_echo(packet_identifier, packet_type, packet_body, packet_body_index);
+	#define HANDLER(_PACKET_TYPE_,_HANDLER_FUNC_) case PACKET_TYPE_##_PACKET_TYPE_: _HANDLER_FUNC_(packet_identifier, packet_type, packet_body, packet_body_index); break;
+	
+	switch(packet_type)
+	{
+		HANDLER(ECHO, serial_handler_echo);
+		HANDLER(GET_TIME, serial_handler_gettime);
+		HANDLER(SET_TIME, serial_handler_settime);
+	}
 }
