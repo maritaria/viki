@@ -162,7 +162,7 @@ void editor_interval_click_field(menu_t* menu, editor_interval_data_t* editor)
 void editor_interval_render(menu_t* menu)
 {
 	display_clear();
-	editor_blink_update();
+	//editor_blink_update();
 	editor_interval_render_title(menu);
 	editor_interval_data_t* editor = (editor_interval_data_t*)menu->user_data;
 	editor_interval_render_date(editor);

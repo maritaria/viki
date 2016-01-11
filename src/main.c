@@ -10,6 +10,7 @@
 #include "modules/menu.h"
 #include "modules/serial.h"
 #include "modules/timeswitches.h"
+#include "modules/flash_memory.h"
 
 void init_device(void);
 void init_modules(void);
@@ -44,6 +45,7 @@ void init_modules()
 	menu_init(); 
 	datetime_init();
 	timeswitches_init();
+	test_func();
 }
 
 void run_application()

@@ -491,6 +491,12 @@
     <Compile Include="src\modules\datetime.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\flash_memory.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\flash_memory.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\modules\menus\editor_integer.c">
       <SubType>compile</SubType>
     </Compile>
