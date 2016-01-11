@@ -9,8 +9,8 @@
 #include "macros.h"
 
 void datetime_init(void);
-uint32_t datetime_get_milliseconds();
-void datetime_set_time(uint32_t new_milliseconds);
+uint64_t datetime_get_milliseconds();
+void datetime_set_time(uint64_t new_milliseconds);
 void datetime_increment_millisecond(void);
 void datetime_tick(void);
 

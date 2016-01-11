@@ -25,10 +25,11 @@ void menu_splash_tick(menu_t* menu)
 void menu_splash_render(menu_t* menu)
 {
 	display_clear();
-	uint32_t timestamp = datetime_get_milliseconds();
-	uint16_t seconds = timestamp / 1000;
+	uint64_t timestamp = datetime_get_milliseconds();
+	uint32_t seconds = timestamp / 1000;
 	uint16_t milliseconds = timestamp % 1000;
 	struct calendar_date date = {0};
 	calendar_timestamp_to_date(seconds, &date);
+	display_printf(20, "%4i-%2i-%2i", date.year, date.month, date.date);
 	display_printf(20, "%2ih%2im%2is%3ims", date.hour, date.minute, date.second, milliseconds);
 }

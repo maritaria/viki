@@ -9,9 +9,7 @@
 void serial_handler_gettime(char identifier, char type, char* body, int body_length)
 {
 	char responseBody[4] = {0};
-	uint32_t millis = datetime_get_milliseconds();
-	
-	memcpy(responseBody, &millis, sizeof(uint32_t));
-	
+	uint64_t millis = datetime_get_milliseconds();
+	memcpy(responseBody, &millis, sizeof(millis));
 	serial_send_packet(identifier, type, responseBody, 4);
 }
