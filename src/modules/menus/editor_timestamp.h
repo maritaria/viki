@@ -22,23 +22,31 @@ DEFINE_TYPE(enum, editor_timestamp_field) {
 	action_accept, action_cancel, action_reset,
 };
 
+DEFINE_TYPE(struct, editor_timestamp_value_t) {
+	struct calendar_date calendar_date;
+	uint16_t milliseconds;
+	};
+
 DEFINE_TYPE(struct, editor_timestamp_data_t) {
 	/* The datetime entered by the user*/
-	struct calendar_date user_input;
-	/* True if user accepted the input, false if user canceled action*/
-	bool user_accepted;
-	/* Whether the user is allowed to cancel */
-	bool user_can_cancel;
+	editor_timestamp_value_t user_input;
+	/*initial input displayed to the user*/
+	editor_timestamp_value_t initial_input;
+	
 	/* internal use */
 	editor_timestamp_field current_field;
 	/* internal use */
 	int field_offset;
 	
+	void* user_data;
+	
 	/* The function to be called when the user exits the editor */
-	void (*user_finished)(editor_timestamp_data_t*);
+	void (*on_completed)(menu_t*, editor_timestamp_data_t*);
+	void (*on_cancel)(menu_t*, editor_timestamp_data_t*);
 };
 
 char* editor_timestamp_get_title(menu_t* menu);
 void editor_timestamp_tick(menu_t* menu);
+menu_t* generate_editor_timestamp(menu_t*, const char*, editor_timestamp_data_t);
 
 #endif /* MODULES__MENUS__EDITOR_TIMESTAMP_H_ */

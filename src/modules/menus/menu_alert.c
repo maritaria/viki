@@ -7,6 +7,8 @@
 #include "modules/timeswitches.h"
 #include "modules/menus/editor_integer.h"
 #include "modules/config.h"
+#include "modules/menus/editor_timestamp.h"
+#include "modules/menus/editor_interval.h"
 
 menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, const char* menu_title);
 menu_item_t* generate_alert_item(menu_t* parentMenu,  timeswitch_config_t* config, void (*on_click)(menu_item_t*), const char* item_title)
@@ -17,6 +19,10 @@ menu_item_t* generate_alert_item(menu_t* parentMenu,  timeswitch_config_t* confi
 }
 
 
+void start_time_canceled(menu_t*, editor_timestamp_data_t*);
+void start_time_completed(menu_t*, editor_timestamp_data_t*);
+void interval_canceled(menu_t*, editor_interval_data_t*);
+void interval_completed(menu_t*, editor_interval_data_t*);
 void repeat_canceled(menu_t*, editor_integer_data_t*);
 void repeat_completed(menu_t*, editor_integer_data_t*);
 void target_one(menu_item_t*);
@@ -51,11 +57,22 @@ menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, con
 {
 	menu_t* alert_menu = menu_add_submenu(parentMenu, menu_title);
 	
-	menu_t* start_menu = menu_add_submenu(alert_menu, "Start");
-	//tijd instellingen hier
+	editor_timestamp_data_t data_timestamp = {0};
+	data_timestamp.current_field = date_year;
+	data_timestamp.user_input.calendar_date.year = 2015;
+	data_timestamp.user_input.calendar_date.month = 11;
+	data_timestamp.user_input.calendar_date.date = 1;
+	data_timestamp.on_cancel = start_time_canceled;
+	data_timestamp.on_completed = start_time_completed;
+	data_timestamp.user_data = config;
+	generate_editor_timestamp(alert_menu, "Start time", data_timestamp);
 	
-	menu_t* interval_menu = menu_add_submenu(alert_menu, "Interval");
-	//interval instellingen hier
+	editor_interval_data_t data_interval = {0};
+	data_interval.current_field = interval_day;
+	data_interval.on_cancel = interval_canceled;
+	data_interval.on_completed = interval_completed;
+	data_interval.user_data = config;
+	generate_editor_interval(alert_menu, "Interval", data_interval);
 	
 	editor_integer_data_t data = {0};
 	data.max = 10;
@@ -83,6 +100,32 @@ menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, con
 }
 
 
+void start_time_canceled(menu_t* menu, editor_timestamp_data_t* data)
+{
+	
+}
+
+void start_time_completed(menu_t* menu, editor_timestamp_data_t* data)
+{
+	timeswitch_config_t* config = data->user_data;
+	uint32_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
+	timestamp += data->user_input.milliseconds;
+	config->timestamp = timestamp;
+}
+
+void interval_canceled(menu_t* menu, editor_interval_data_t* data)
+{
+	
+}
+
+void interval_completed(menu_t* menu, editor_interval_data_t* data)
+{
+	timeswitch_config_t* config = data->user_data;
+	uint32_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
+	timestamp += data->user_input.milliseconds;
+	config->repeat_interval = timestamp;
+}
+
 void repeat_canceled(menu_t* menu, editor_integer_data_t* data)
 {
 	
@@ -93,7 +136,6 @@ void repeat_completed(menu_t* menu, editor_integer_data_t* data)
 	timeswitch_config_t* config = data->user_data;
 	config->repeat_count = data->value;
 }
-
 
 void target_one(menu_item_t* item)
 {

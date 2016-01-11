@@ -16,6 +16,7 @@ char* editor_integer_get_title(menu_t* menu)
 	return menu_default_get_title(menu);
 
 }
+
 void editor_integer_tick(menu_t* menu)
 {
 	editor_integer_data_t* data = (editor_integer_data_t*)menu->user_data;
@@ -52,18 +53,16 @@ void editor_integer_update(menu_t* menu, editor_integer_data_t* data)
 		menu_pop_safe();
 		data->on_completed(menu, data);
 	}
-	
 }
+
 void editor_integer_render(menu_t* menu, editor_integer_data_t* data)
 {
 	display_clear();
 	display_printf(20, "%-20s\n", menu->get_title(menu));
 	
-	display_printf(20, "  Value: %i\n", data->value);
-	
-	
-	
+	display_printf(20, "  Value: %i\n", data->value);	
 }
+
 menu_t* generate_editor_integer(menu_t* parentMenu, const char* defaultTitle, editor_integer_data_t dataTemplate)
 {
 	menu_t* newMenu = menu_add_submenu(parentMenu, defaultTitle);
