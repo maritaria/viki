@@ -142,7 +142,8 @@ void interval_canceled(menu_t* menu, editor_interval_data_t* data)
 void interval_completed(menu_t* menu, editor_interval_data_t* data)
 {
 	timeswitch_config_t* config = data->user_data;
-	uint32_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
+	uint64_t timestamp = (uint64_t) calendar_date_to_timestamp(&data->user_input.calendar_date);
+	timestamp *= 1000;
 	timestamp += data->user_input.milliseconds;
 	config->repeat_interval = timestamp;
 }

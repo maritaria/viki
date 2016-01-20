@@ -14,7 +14,7 @@ DEFINE_TYPE(enum, timeswitch_behaviour) { on = 0, off = 1, toggle = 2 };
 DEFINE_TYPE(struct, timeswitch_config_t) {
 	bool enabled;
 	uint64_t timestamp;
-	uint32_t repeat_interval;
+	uint64_t repeat_interval;
 	uint16_t repeat_count;
 	timeswitch_behaviour behaviour;
 	uint16_t output;

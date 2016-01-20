@@ -27,7 +27,7 @@ void serial_handler_getalarm(serial_args_t args)
 	packet[1] = timeswitch->enabled;
 	packet[2] = timeswitch->behaviour;
 	memcpy(packet_pointer + 3, &timeswitch->output, sizeof(uint16_t));
-	memcpy(packet_pointer + 5, &timeswitch->repeat_count, sizeof(uint16_t));
+	memcpy(packet_pointer + 5, &timeswitch->repeat_count, sizeof(uint64_t));
 	memcpy(packet_pointer + 7, &timeswitch->repeat_interval, sizeof(uint32_t));
 	memcpy(packet_pointer + 11, &timeswitch->timestamp, sizeof(uint64_t));
 	
