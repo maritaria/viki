@@ -4,9 +4,7 @@
 //ASF
 //Modules
 #include "modules/config.h"
-#include "serial_handlers/echo.h"
-#include "serial_handlers/gettime.h"
-#include "serial_handlers/settime.h"
+#include "serial_handlers/handlers.h"
 
 bool serial_init(void)
 {
@@ -43,7 +41,7 @@ int packet_body_index = 0;
 int packet_state = STATE_IDLE;
 char packet_body_length = 0;
 char packet_checksum = 0;
-char packet_type = 0;
+packet_type_t packet_type = 0;
 
 void serial_enter_idle_state();
 void serial_handle(char incomming);
@@ -89,21 +87,6 @@ void serial_cdc_dtr_changed(uint8_t port, bool comEnabled)
 	}
 }
 
-void serial_send_packet(char identifier, char type, char* body, int body_length)
-{
-	udi_cdc_putc(PACKET_HEADER);
-	udi_cdc_putc(identifier);
-	udi_cdc_putc(type);
-	udi_cdc_putc(body_length);
-	for(int i = 0; i < body_length;i++)
-	{
-		udi_cdc_putc(body[i]);
-	}
-	char checksum = serial_calculate_checksum(body, body_length);
-	udi_cdc_putc(checksum);
-}
-
-
 void serial_enter_idle_state()
 {
 	packet_state = STATE_IDLE;
@@ -137,10 +120,9 @@ void serial_enter_identifier_state()
 
 void serial_handle_identifier(char incomming)
 {
-	packet_body_length = incomming;
+	packet_identifier = incomming;
 	serial_enter_type_state();
 }
-
 
 void serial_enter_type_state()
 {
@@ -238,12 +220,39 @@ char serial_calculate_checksum(char* body, int body_length)
 
 void serial_handle_packet()
 {
-	#define HANDLER(_PACKET_TYPE_,_HANDLER_FUNC_) case PACKET_TYPE_##_PACKET_TYPE_: _HANDLER_FUNC_(packet_identifier, packet_type, packet_body, packet_body_index); break;
+	serial_args_t args = { .body = packet_body, .body_length = packet_body_index, .identifier = packet_identifier, .type = packet_type};
 	
 	switch(packet_type)
 	{
-		HANDLER(ECHO, serial_handler_echo);
-		HANDLER(GET_TIME, serial_handler_gettime);
-		HANDLER(SET_TIME, serial_handler_settime);
+		case echo: serial_handler_echo(args); break;
+		case get_time: serial_handler_gettime(args); break;
+		case set_time: serial_handler_settime(args); break;
+		case get_alarm: serial_handler_getalarm(args); break;
+		case set_alarm: serial_handler_setalarm(args); break;
 	}
+}
+
+void serial_send_packet(char identifier, char type, char* body, int body_length)
+{
+	udi_cdc_putc(PACKET_HEADER);
+	udi_cdc_putc(identifier);
+	udi_cdc_putc(type);
+	udi_cdc_putc(body_length);
+	for(int i = 0; i < body_length;i++)
+	{
+		udi_cdc_putc(body[i]);
+	}
+	char checksum = serial_calculate_checksum(body, body_length);
+	udi_cdc_putc(checksum);
+}
+
+void serial_send_quick_response(char identifier, char type, char value)
+{
+	char body[1] = { value };
+	serial_send_packet(identifier, type, body, 1);
+}
+
+void serial_send_failure_response(char identifier, char type)
+{
+	serial_send_quick_response(identifier, type, 0);
 }

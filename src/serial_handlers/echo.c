@@ -1,10 +1,9 @@
-#include "echo.h"
+#include "handlers.h"
 //Standard C
 //ASF
 //Custom
-#include "modules/serial.h"
 
-void serial_handler_echo(char identifier, char type, char* body, int body_length)
+void serial_handler_echo(serial_args_t args)
 {
-	serial_send_packet(identifier, type, body, body_length);
+	serial_send_packet(args.identifier, args.type, args.body, args.body_length);
 }

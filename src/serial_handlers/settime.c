@@ -1,18 +1,17 @@
-#include "settime.h"
+#include "handlers.h"
 //Standard C
 #include <string.h>
 //ASF
 //Custom
-#include "modules/serial.h"
 #include "modules/datetime.h"
 
-void serial_handler_settime(char identifier, char type, char* body, int body_length)
+void serial_handler_settime(serial_args_t args)
 {
 	char response[1] = {0};
 	uint64_t millis = 0;
-	if (body_length == sizeof(millis))
+	if (args.body_length == sizeof(millis))
 	{
-		memcpy(&millis, body, sizeof(millis));
+		memcpy(&millis, args.body, sizeof(millis));
 		datetime_set_time(millis);
 		response[0] = 1;
 	}
@@ -20,5 +19,5 @@ void serial_handler_settime(char identifier, char type, char* body, int body_len
 	{
 		response[0] = 0;
 	}
-	serial_send_packet(identifier, type, response, 1);
+	serial_send_packet(args.identifier, args.type, response, 1);
 }

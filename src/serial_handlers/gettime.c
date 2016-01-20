@@ -1,15 +1,14 @@
-#include "gettime.h"
+#include "handlers.h"
 //Standard C
 #include <string.h>
 //ASF
 //Custom
-#include "modules/serial.h"
 #include "modules/datetime.h"
 
-void serial_handler_gettime(char identifier, char type, char* body, int body_length)
+void serial_handler_gettime(serial_args_t args)
 {
 	uint64_t millis = datetime_get_milliseconds();
 	char responseBody[sizeof(millis)] = {0};
 	memcpy(responseBody, &millis, sizeof(millis));
-	serial_send_packet(identifier, type, responseBody, sizeof(millis));
+	serial_send_packet(args.identifier, args.type, responseBody, sizeof(millis));
 }

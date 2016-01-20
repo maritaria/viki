@@ -7,7 +7,7 @@
 //Custom
 #include "macros.h"
 
-DEFINE_TYPE(enum, timeswitch_behaviour) { on, off, toggle };
+DEFINE_TYPE(enum, timeswitch_behaviour) { on = 0, off = 1, toggle = 2 };
 
 #define TIMESWITCH_INFINITE_REPEAT (0)
 
@@ -15,9 +15,9 @@ DEFINE_TYPE(struct, timeswitch_config_t) {
 	bool enabled;
 	uint64_t timestamp;
 	uint32_t repeat_interval;
-	int16_t repeat_count;
+	uint16_t repeat_count;
 	timeswitch_behaviour behaviour;
-	int16_t output;
+	uint16_t output;
 };
 
 void timeswitches_init(void);

@@ -477,19 +477,19 @@
     <Compile Include="src\serial_handlers\echo.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\serial_handlers\echo.h">
+    <Compile Include="src\serial_handlers\getalarm.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\serial_handlers\gettime.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="src\serial_handlers\gettime.h">
+    <Compile Include="src\serial_handlers\handlers.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\serial_handlers\setalarm.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\serial_handlers\settime.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\serial_handlers\settime.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\ASF\avr32\drivers\adc\adc.h">
