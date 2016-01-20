@@ -108,7 +108,8 @@ void start_time_canceled(menu_t* menu, editor_timestamp_data_t* data)
 void start_time_completed(menu_t* menu, editor_timestamp_data_t* data)
 {
 	timeswitch_config_t* config = data->user_data;
-	uint32_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
+	uint64_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date);
+	timestamp *= 1000;
 	timestamp += data->user_input.milliseconds;
 	config->timestamp = timestamp;
 }
