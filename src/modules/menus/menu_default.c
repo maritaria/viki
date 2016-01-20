@@ -160,3 +160,8 @@ bool menu_item_is_submenu(menu_item_t* item)
 {
 	return (item->on_click == item_submenu_on_click);
 }
+
+void menu_default_on_load(menu_t* menu)
+{
+	
+}

@@ -104,6 +104,7 @@ menu_t* menu_create(const char* defaultTitle)
 	menu->default_title = (char*)defaultTitle;
 	menu->get_title = menu_default_get_title;
 	menu->tick = menu_default_tick;
+	menu->on_load = menu_default_on_load;
 	menu_create_state(menu);
 	return menu;
 }
@@ -164,6 +165,7 @@ void menu_push(menu_t* menu)
 	while (menu_count() >= MAXIMUM_ACTIVE_MENUS);
 	active_menu_index++;
 	active_menu_stack[active_menu_index] = menu;
+	menu->on_load(menu);
 }
 
 void menu_pop()

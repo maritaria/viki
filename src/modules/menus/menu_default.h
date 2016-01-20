@@ -10,5 +10,6 @@
 
 char* menu_default_get_title(menu_t* menu);
 void menu_default_tick(menu_t* menu);
+void menu_default_on_load(menu_t* menu);
 
 #endif /* MODULES__MENUS__MENU_DEFAULT_H_ */

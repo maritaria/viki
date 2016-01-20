@@ -43,10 +43,12 @@ DEFINE_TYPE(struct, editor_interval_data_t) {
 	/* The function to be called when the user exits the editor */
 	void (*on_completed)(menu_t*, editor_interval_data_t*);
 	void (*on_cancel)(menu_t*, editor_interval_data_t*);
+	void (*on_load)(menu_t*, editor_interval_data_t*);
 };
 
 char* editor_interval_get_title(menu_t* menu);
 void editor_interval_tick(menu_t* menu);
 menu_t* generate_editor_interval(menu_t*, const char*, editor_interval_data_t);
+void editor_interval_on_load(menu_t* menu);
 
 #endif /* MODULES__MENUS__EDITOR_INTERVAL_H_ */

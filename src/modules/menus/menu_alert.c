@@ -18,11 +18,13 @@ menu_item_t* generate_alert_item(menu_t* parentMenu,  timeswitch_config_t* confi
 	item->user_data = config;
 }
 
-
+void start_time_on_load(menu_t*, editor_timestamp_data_t*);
 void start_time_canceled(menu_t*, editor_timestamp_data_t*);
 void start_time_completed(menu_t*, editor_timestamp_data_t*);
+void interval_on_load(menu_t*, editor_interval_data_t*);
 void interval_canceled(menu_t*, editor_interval_data_t*);
 void interval_completed(menu_t*, editor_interval_data_t*);
+void repeat_on_load(menu_t*, editor_integer_data_t*);
 void repeat_canceled(menu_t*, editor_integer_data_t*);
 void repeat_completed(menu_t*, editor_integer_data_t*);
 void target_one(menu_item_t*);
@@ -64,6 +66,7 @@ menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, con
 	data_timestamp.user_input.calendar_date.date = 1;
 	data_timestamp.on_cancel = start_time_canceled;
 	data_timestamp.on_completed = start_time_completed;
+	data_timestamp.on_load = start_time_on_load;
 	data_timestamp.user_data = config;
 	generate_editor_timestamp(alert_menu, "Start time", data_timestamp);
 	
@@ -100,6 +103,15 @@ menu_t* generate_alert_menu(menu_t* parentMenu, timeswitch_config_t* config, con
 }
 
 
+void start_time_on_load(menu_t* menu, editor_timestamp_data_t* data)
+{
+		timeswitch_config_t* config = data->user_data;
+		calendar_timestamp_to_date(config->timestamp / 1000, &data->user_input.calendar_date);
+		calendar_timestamp_to_date(config->timestamp / 1000, &data->initial_input.calendar_date);
+		data->user_input.milliseconds = config->timestamp % 1000;
+		data->initial_input.milliseconds = config->timestamp % 1000;
+}
+
 void start_time_canceled(menu_t* menu, editor_timestamp_data_t* data)
 {
 	
@@ -114,6 +126,14 @@ void start_time_completed(menu_t* menu, editor_timestamp_data_t* data)
 	config->timestamp = timestamp;
 }
 
+void interval_on_load(menu_t* menu, editor_interval_data_t* data)
+{
+	timeswitch_config_t* config = data->user_data;
+	uint32_t interval = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
+	interval += data->user_input.milliseconds;
+	config->repeat_interval = interval;
+}
+
 void interval_canceled(menu_t* menu, editor_interval_data_t* data)
 {
 	
@@ -125,6 +145,12 @@ void interval_completed(menu_t* menu, editor_interval_data_t* data)
 	uint32_t timestamp = calendar_date_to_timestamp(&data->user_input.calendar_date) *1000;
 	timestamp += data->user_input.milliseconds;
 	config->repeat_interval = timestamp;
+}
+
+void repeat_on_load(menu_t* menu, editor_integer_data_t* data)
+{
+	timeswitch_config_t* config = data->user_data;
+	config->repeat_count = data->value;
 }
 
 void repeat_canceled(menu_t* menu, editor_integer_data_t* data)

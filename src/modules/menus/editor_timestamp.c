@@ -233,6 +233,7 @@ menu_t* generate_editor_timestamp(menu_t* parentMenu, const char* defaultTitle, 
 	data->initial_input = dataTemplate.initial_input;
 	data->on_cancel = dataTemplate.on_cancel;
 	data->on_completed = dataTemplate.on_completed;
+	data->on_load = dataTemplate.on_load;
 	data->user_data = dataTemplate.user_data;
 	data->user_input = dataTemplate.user_input;
 	newMenu->user_data = (void*)data;
@@ -387,4 +388,14 @@ void editor_timestamp_cancel(menu_t* menu, editor_timestamp_data_t* editor)
 void editor_timestamp_reset(menu_t* menu, editor_timestamp_data_t* editor)
 {
 	editor->user_input = editor->initial_input;	
+}
+
+void editor_timestamp_on_load(menu_t* menu)
+{
+	
+	editor_timestamp_data_t* editor = (editor_timestamp_data_t*)menu->user_data;
+	if(editor->on_load)
+	{
+		editor->on_load(menu, editor);
+	}	
 }

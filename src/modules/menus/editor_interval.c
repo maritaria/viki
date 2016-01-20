@@ -224,6 +224,7 @@ menu_t* generate_editor_interval(menu_t* parentMenu, const char* defaultTitle, e
 	data->initial_input = dataTemplate.initial_input;
 	data->on_cancel = dataTemplate.on_cancel;
 	data->on_completed = dataTemplate.on_completed;
+	data->on_load = dataTemplate.on_load;
 	data->user_data = dataTemplate.user_data;
 	data->user_input = dataTemplate.user_input;
 	newMenu->user_data = (void*)data;

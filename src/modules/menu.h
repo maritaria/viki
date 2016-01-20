@@ -27,6 +27,7 @@ DEFINE_TYPE(struct, menu_t) {
 	
 	char* (*get_title)(menu_t*);
 	void (*tick)(menu_t*);
+	void (*on_load)(menu_t*);
 };
 
 DEFINE_TYPE(struct, menu_state_t) {

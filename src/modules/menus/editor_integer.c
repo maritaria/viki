@@ -75,6 +75,7 @@ menu_t* generate_editor_integer(menu_t* parentMenu, const char* defaultTitle, ed
 	data->max = dataTemplate.max;
 	data->on_cancel = dataTemplate.on_cancel;
 	data->on_completed = dataTemplate.on_completed;
+	data->on_load = dataTemplate.on_load;
 	data->user_data = dataTemplate.user_data;
 	newMenu->user_data = (void*)data;
 	return newMenu;

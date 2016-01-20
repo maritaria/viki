@@ -43,10 +43,12 @@ DEFINE_TYPE(struct, editor_timestamp_data_t) {
 	/* The function to be called when the user exits the editor */
 	void (*on_completed)(menu_t*, editor_timestamp_data_t*);
 	void (*on_cancel)(menu_t*, editor_timestamp_data_t*);
+	void (*on_load)(menu_t*, editor_timestamp_data_t*);
 };
 
 char* editor_timestamp_get_title(menu_t* menu);
 void editor_timestamp_tick(menu_t* menu);
 menu_t* generate_editor_timestamp(menu_t*, const char*, editor_timestamp_data_t);
+void editor_timestamp_on_load(menu_t* menu);
 
 #endif /* MODULES__MENUS__EDITOR_TIMESTAMP_H_ */
