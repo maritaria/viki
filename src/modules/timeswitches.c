@@ -8,13 +8,6 @@
 
 void timeswitches_init()
 {
-	timeswitch_config_t* sw = &CONFIG.timers[0];
-	sw->enabled = true;
-	sw->timestamp = 10800;
-	sw->repeat_count = -1;
-	sw->repeat_interval = 1000;
-	sw->behaviour = toggle;
-	sw->output = 3;
 }
 
 void timeswitches_update_specific(timeswitch_config_t* timeswitch);
@@ -52,6 +45,17 @@ void apply_switch(timeswitch_config_t* timeswitch)
 		{
 			switch(timeswitch->behaviour)
 			{
+				case on: LED_On(LED0); break;
+				case off: LED_Off(LED0); break;
+				case toggle: LED_Toggle(LED0); break;
+			}
+			break;
+		}
+		
+		case 2:
+		{
+			switch(timeswitch->behaviour)
+			{
 				case on: LED_On(LED1); break;
 				case off: LED_Off(LED1); break;
 				case toggle: LED_Toggle(LED1); break;
@@ -59,7 +63,7 @@ void apply_switch(timeswitch_config_t* timeswitch)
 			break;
 		}
 		
-		case 2:
+		case 3:
 		{
 			switch(timeswitch->behaviour)
 			{
@@ -70,24 +74,13 @@ void apply_switch(timeswitch_config_t* timeswitch)
 			break;
 		}
 		
-		case 3:
+		case 4:
 		{
 			switch(timeswitch->behaviour)
 			{
 				case on: LED_On(LED3); break;
 				case off: LED_Off(LED3); break;
 				case toggle: LED_Toggle(LED3); break;
-			}
-			break;
-		}
-		
-		case 4:
-		{
-			switch(timeswitch->behaviour)
-			{
-				case on: LED_On(LED4); break;
-				case off: LED_Off(LED4); break;
-				case toggle: LED_Toggle(LED4); break;
 			}
 			break;
 		}

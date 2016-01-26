@@ -8,13 +8,14 @@
 
 void serial_handler_getalarm(serial_args_t args)
 {
+	//expected is 1 byte; the index of the alarm (0, 1, 2, 3)
 	if (args.body_length != 1)
 	{
 		serial_send_failure_response(args.identifier, args.type);
 		return;
 	}
 	char alarmIndex = args.body[0];
-	if (alarmIndex > 4)
+	if (alarmIndex >= 4)
 	{
 		serial_send_failure_response(args.identifier, args.type);
 		return;

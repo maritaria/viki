@@ -20,14 +20,15 @@ char* item_default_get_text(menu_item_t* item, bool selected)
 	{
 		return item->default_text;
 	}
-	//TODO: new function, rotate_buffer(buffer, rotation);
 	memset(selected_text_buffer, ' ', 64);
 	int length = min(strlen(item->default_text), 62);
 	memcpy(selected_text_buffer, item->default_text, length);
 	selected_text_buffer[length] = ' ';
 	length++;
+	//Should the text rotate?
 	if (length > 15)
 	{
+		//Wait for a bit before starting to rotate
 		if (counter++ > 100)
 		{
 			if(shift_offset++ >= length)
@@ -45,6 +46,7 @@ char* item_default_get_text(menu_item_t* item, bool selected)
 	{
 		shift_offset = 0;
 	}
+	//Rotate the title a given amount of bytes
 	for(int i = 0; i < shift_offset; i++)
 	{
 		char first = selected_text_buffer[0];
@@ -57,12 +59,14 @@ char* item_default_get_text(menu_item_t* item, bool selected)
 
 void item_default_on_selected(menu_item_t* item)
 {
+	//Reset the rotation and wait timer
 	counter = 0;
 	shift_offset = 0;
 }
 
 void item_default_on_click(menu_item_t* item)
 {
+	//If no callback is set; it just shows a blank screen with the following small message for a short while
 	int i = 0;
 	while(i++ < 100)
 	{

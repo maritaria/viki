@@ -16,15 +16,13 @@ void init_device(void);
 void init_modules(void);
 void run_application(void);
 
-int i;
-
 int main (void)
 {
 	init_device();
 	init_modules();
 	run_application();
 }
-
+//call init functions of ASF modules
 void init_device()
 {
 	INTC_init_interrupts();
@@ -34,7 +32,7 @@ void init_device()
 	sysclk_init();
 	board_init();
 }
-
+//Call init functions of custom modules
 void init_modules()
 {
 	config_init();
@@ -46,23 +44,16 @@ void init_modules()
 	datetime_init();
 	timeswitches_init();
 }
-
+//Main loop
 void run_application()
 {
 	display_clear();
 	display_print("Application started");
 	display_printf(20, "%8i", sizeof(config_t));
-	int i = 0;
 	while(true)
 	{
-		flash_save_next();
-		i++;
-		if(datetime_get_milliseconds() > 1000)
-		{
-			i = 0;
-		}
-		menu_update();
-		display_update();
-		clock_update();
+		menu_update();//Draw/update the current menu; these implement handling user input as well
+		display_update();//Draw the buffer to the screen device
+		clock_update();//Adjust the RTC clock (hack)
 	}
 }

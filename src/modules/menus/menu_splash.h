@@ -11,4 +11,7 @@
 char* menu_splash_get_title(menu_t* menu);
 void menu_splash_tick(menu_t* menu);
 
+menu_t* generate_splash_menu(menu_t* menu);
+
+
 #endif /* MODULES__MENUS__MENU_SPLASH_H_ */

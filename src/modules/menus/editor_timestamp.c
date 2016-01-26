@@ -220,12 +220,13 @@ void editor_timestamp_render_actions(editor_timestamp_data_t* editor)
 		reset
 	);
 }
-
+//Creates a new menu for the editor and sets it up by copying over the dataTemplate
 menu_t* generate_editor_timestamp(menu_t* parentMenu, const char* defaultTitle, editor_timestamp_data_t dataTemplate)
 {
 	menu_t* newMenu = menu_add_submenu(parentMenu, defaultTitle);
 	newMenu->get_title = editor_timestamp_get_title;
 	newMenu->tick = editor_timestamp_tick;
+	newMenu->on_load = editor_timestamp_on_load;
 	free(newMenu->user_data);
 	editor_timestamp_data_t* data = malloc(sizeof(editor_timestamp_data_t));
 	data->current_field = dataTemplate.current_field;
@@ -392,7 +393,6 @@ void editor_timestamp_reset(menu_t* menu, editor_timestamp_data_t* editor)
 
 void editor_timestamp_on_load(menu_t* menu)
 {
-	
 	editor_timestamp_data_t* editor = (editor_timestamp_data_t*)menu->user_data;
 	if(editor->on_load)
 	{

@@ -63,11 +63,21 @@ void editor_integer_render(menu_t* menu, editor_integer_data_t* data)
 	display_printf(20, "  Value: %i\n", data->value);	
 }
 
+void editor_integer_on_load(menu_t* menu)
+{
+	editor_integer_data_t* editor = (editor_integer_data_t*)menu->user_data;
+	if(editor->on_load)
+	{
+		editor->on_load(menu, editor);
+	}
+}
+//Creates a new menu for the editor and sets it up by copying over the dataTemplate
 menu_t* generate_editor_integer(menu_t* parentMenu, const char* defaultTitle, editor_integer_data_t dataTemplate)
 {
 	menu_t* newMenu = menu_add_submenu(parentMenu, defaultTitle);
 	newMenu->get_title = editor_integer_get_title;
 	newMenu->tick = editor_integer_tick;
+	newMenu->on_load = editor_integer_on_load;
 	free(newMenu->user_data);
 	editor_integer_data_t* data = malloc(sizeof(editor_integer_data_t));
 	data->value = dataTemplate.value;

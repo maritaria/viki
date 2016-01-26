@@ -474,6 +474,21 @@
     <Compile Include="src\ASF\avr32\drivers\adc\adc.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\modules\menu.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_demo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\item_demo.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\menu_datetime.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\modules\menus\menu_datetime.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\serial_handlers\echo.c">
       <SubType>compile</SubType>
     </Compile>
@@ -661,9 +676,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\modules\menu.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\modules\menu.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\modules\serial.c">

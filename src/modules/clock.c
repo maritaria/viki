@@ -29,6 +29,7 @@ void clock_init(void)
 
 void clock_update()
 {
+	//We don't know why it only works like this; but it only works like this...
 	uint16_t raw = 639;
 	potvalue = (float)raw / (float)0x3FF;
 	potvalue -= 0.5;
@@ -40,23 +41,26 @@ static void rtc_irq()
 {
 	rtc_clear_interrupt(&AVR32_RTC);
 	rtc_hack();
+	//Tells the datetime module that a millisecond has passed
 	datetime_increment_millisecond();
+	//Tells the alerts to be checked for changes
 	timeswitches_update();
-	LED_Toggle(LED1);
+	//Since this function is run once per millisecond; it should have more then enough time to do all of the above
 }
 
 static void rtc_hack()
 {
+	//When the clock desyncs too much from the actual time; adjust the RTC interrupt so it shifts back into place;
 	double delta = 0.3837 + potvalue;
 	behind += delta;
 	if (behind >= 1)
 	{
-		behind -= 1;
-		(&AVR32_RTC)->top = 16;
+		behind -= 1;//We're back on track
+		(&AVR32_RTC)->top = 16;//Raw manipulation; ASF waits for some flag; but we dont have time for that
 	}
 	else
 	{
-		(&AVR32_RTC)->top = 15;
+		(&AVR32_RTC)->top = 15;//Raw manipulation; ASF waits for some flag; but we dont have time for that
 	}
 	return;
 }

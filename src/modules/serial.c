@@ -15,14 +15,14 @@ bool serial_init(void)
 bool serial_cdc_enable(uint8_t port)
 {
 	//Communication has opened
-	LED_On(LED0);
+	LED_On(LED4);
 	return true;//Allow
 }
 
 void serial_cdc_disable(uint8_t port)
 {
 	//Communication has closed
-	LED_Off(LED0);
+	LED_Off(LED4);
 }
 
 #define PACKET_MAX_BODY_SIZE (255)
@@ -77,12 +77,12 @@ void serial_cdc_dtr_changed(uint8_t port, bool comEnabled)
 {
 	if (comEnabled)
 	{
-		LED_On(LED1);
+		LED_On(LED5);
 		CONFIG.com_enabled = true;
 	}
 	else
 	{
-		LED_Off(LED1);
+		LED_Off(LED5);
 		CONFIG.com_enabled = false;
 	}
 }
@@ -149,9 +149,9 @@ void serial_handle_length(char incomming)
 void serial_enter_body_state()
 {
 	packet_state = STATE_BODY;
-	memset(packet_body, 0, sizeof(packet_body));
-	packet_body_index = 0;
-	serial_check_body_state_end();
+	memset(packet_body, 0, sizeof(packet_body));//Prepare the packet by setting it to 0x00
+	packet_body_index = 0;//point to the first byte
+	serial_check_body_state_end();//If there are 0 bytes expected; then this will make sure that we skip the body stage/state
 }
 
 void serial_handle_body(char incomming)
@@ -231,7 +231,7 @@ void serial_handle_packet()
 		case set_alarm: serial_handler_setalarm(args); break;
 	}
 }
-
+//Writes a packet to the serial stream
 void serial_send_packet(char identifier, char type, char* body, int body_length)
 {
 	udi_cdc_putc(PACKET_HEADER);
@@ -245,13 +245,13 @@ void serial_send_packet(char identifier, char type, char* body, int body_length)
 	char checksum = serial_calculate_checksum(body, body_length);
 	udi_cdc_putc(checksum);
 }
-
+//Sends a single char back over the serial stream
 void serial_send_quick_response(char identifier, char type, char value)
 {
 	char body[1] = { value };
 	serial_send_packet(identifier, type, body, 1);
 }
-
+//Sends back a typical failure response over the serial stream
 void serial_send_failure_response(char identifier, char type)
 {
 	serial_send_quick_response(identifier, type, 0);

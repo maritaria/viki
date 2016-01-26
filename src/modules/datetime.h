@@ -8,6 +8,8 @@
 //Custom
 #include "macros.h"
 
+//Small functions that control the storage of the global timestamp of the system
+
 void datetime_init(void);
 uint64_t datetime_get_milliseconds();
 void datetime_set_time(uint64_t new_milliseconds);

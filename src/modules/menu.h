@@ -12,27 +12,27 @@
 
 DEFINE_TYPE(struct, menu_item_t) {
 	char* default_text;
-	menu_item_t* next_item;
-	void* user_data;
+	menu_item_t* next_item;//Linked list
+	void* user_data;//Context/tag
 	
-	char* (*get_text)(menu_item_t*, bool);
-	void (*on_selected)(menu_item_t*);
-	void (*on_click)(menu_item_t*);
+	char* (*get_text)(menu_item_t*, bool);//Allows for scrollable text
+	void (*on_selected)(menu_item_t*);//Allows for updating the text when the user selects it (and resetting horizontal scroll)
+	void (*on_click)(menu_item_t*);//Called when the user clicks on the item
 };
 
 DEFINE_TYPE(struct, menu_t) {
 	char* default_title;
-	menu_item_t* first_item;
+	menu_item_t* first_item;//Linked list; first item points to the next one (etc)
 	void* user_data;
 	
 	char* (*get_title)(menu_t*);
-	void (*tick)(menu_t*);
-	void (*on_load)(menu_t*);
+	void (*tick)(menu_t*);//Draw & update
+	void (*on_load)(menu_t*);//When the menu first opens (used by editors to load initial values)
 };
 
 DEFINE_TYPE(struct, menu_state_t) {
-	int scroll;
-	int selected_index;
+	int scroll;//Vertical scroll in the item list (default menu's)
+	int selected_index;//Index of selected item (default menu's)
 };
 
 /* Menu creation */

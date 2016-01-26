@@ -162,7 +162,6 @@ void editor_interval_click_field(menu_t* menu, editor_interval_data_t* editor)
 void editor_interval_render(menu_t* menu)
 {
 	display_clear();
-	//editor_blink_update();
 	editor_interval_render_title(menu);
 	editor_interval_data_t* editor = (editor_interval_data_t*)menu->user_data;
 	editor_interval_render_date(editor);
@@ -212,11 +211,22 @@ void editor_interval_render_actions(editor_interval_data_t* editor)
 	);
 }
 
+void editor_interval_on_load(menu_t* menu)
+{
+	editor_interval_data_t* editor = (editor_interval_data_t*)menu->user_data;
+	if(editor->on_load)
+	{
+		editor->on_load(menu, editor);
+	}
+}
+
+//Creates a new menu for the editor and sets it up by copying over the dataTemplate
 menu_t* generate_editor_interval(menu_t* parentMenu, const char* defaultTitle, editor_interval_data_t dataTemplate)
 {
 	menu_t* newMenu = menu_add_submenu(parentMenu, defaultTitle);
 	newMenu->get_title = editor_interval_get_title;
 	newMenu->tick = editor_interval_tick;
+	newMenu->on_load = editor_interval_on_load;
 	free(newMenu->user_data);
 	editor_interval_data_t* data = malloc(sizeof(editor_interval_data_t));
 	data->current_field = dataTemplate.current_field;

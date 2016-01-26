@@ -65,15 +65,15 @@ void display_init_spi()
 
 void display_init_device()
 {
-	dip204_init(backlight_IO, true);
-	display_clear();
-	display_set_cursor(false);
+	dip204_init(backlight_IO, true);//Turn on the backlight
+	display_clear();//Crear the buffer
+	display_set_cursor(false);//Turn off the blinking cursor
 }
 
 void display_update()
 {
-	display_update_content();
-	display_update_cursor();
+	display_update_content();//Write the buffer to the screen
+	display_update_cursor();//Place the cursor where the buffer thinks it should be
 }
 
 void display_update_content()
@@ -89,6 +89,7 @@ void display_update_content()
 
 void display_update_cursor()
 {
+	//Only act on changes
 	if (cursor_enabled_desired != cursor_enabled_real)
 	{
 		if (cursor_enabled_desired)
@@ -97,7 +98,7 @@ void display_update_cursor()
 		}
 		else
 		{
-			//dip204_hide_cursor();
+			dip204_hide_cursor();
 		}
 		cursor_enabled_real = cursor_enabled_desired;
 	}
@@ -140,39 +141,42 @@ void display_print(const char* text)
 	bool keepGoing = true;
 	while(keepGoing)
 	{
+		//When at the end of the line; jump to the beginning of the next line
 		if (currentPos >= DISPLAY_WIDTH)
 		{
 			currentPos = 0;
 			currentLine++;
 		}
+		//Jump back to the top after the last line
 		if (currentLine >= DISPLAY_HEIGHT)
 		{
 			currentLine = 0;
 		}
+		//Write the next character to the buffer
 		char letter = text[textIndex];
 		switch(letter)
 		{
-			case '\0': 
+			case '\0': //EOS
 				keepGoing = false;
 			break;
-			case '\n':
+			case '\n'://Goto next line and clear out everything on the way with spaces
 				for (; currentPos < DISPLAY_WIDTH; currentPos++)
 				{
 					displayBuffer[currentLine][currentPos] = DISPLAY_SPACE;	
 				}
 			break;
-			case '\t':
+			case '\t'://Goto next tabbed position and clear out everything on the way with spaces
 				for(;currentPos < ((currentPos / 4) + 1) * 4; currentPos++)
 				{
 					displayBuffer[currentLine][currentPos] = DISPLAY_SPACE;
 				}
 			break;
-			case '\r':
+			case '\r'://Goto beginning of the line
 				currentPos = 0;
 			break;
-			default:
+			default://Just print it
 				displayBuffer[currentLine][currentPos] = text[textIndex];
-				currentPos++;
+				currentPos++;//Jumping to the next line is handled at the next character printed
 			break;
 		}
 		textIndex++;
@@ -180,12 +184,14 @@ void display_print(const char* text)
 	display_set_pos(currentPos, currentLine);
 }
 
+//quick function for printing single character
 void display_printc(char character)
 {
 	char text[2] = { character, '\0' };
 	display_print(text);
 }
 
+//printf version
 void display_printf(size_t maxLength, const char* format, ...)
 {
 	maxLength++;//Add space for the '\0'
@@ -194,10 +200,11 @@ void display_printf(size_t maxLength, const char* format, ...)
 	
 	va_list arg;
 	va_start(arg, format);
+	//vsnprintf - printf to string; limited by a given number of characters (maxLength) and use varargs
 	size_t i = vsnprintf(buffer, maxLength, format, arg);
 	va_end(arg);
 	
-	while(i < maxLength - 1)
+	while(i < maxLength - 1)//Fill the rest of the string with EOS
 	{
 		buffer[i] = '\0';
 		i++;

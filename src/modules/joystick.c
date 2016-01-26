@@ -33,7 +33,7 @@ bool joystick_init()
 	joystick_clear();
 	return true;
 }
-
+//The interrupt sets a flag on the config; which is handled by menu's in the main loop. The perfect debounce system (never had an issue)
 static void joystick_interrupt_callback(void)
 {
 	if (gpio_get_pin_interrupt_flag(GPIO_JOYSTICK_LEFT))
@@ -62,6 +62,9 @@ static void joystick_interrupt_callback(void)
 		gpio_clear_pin_interrupt_flag(GPIO_JOYSTICK_PUSH);
 	}
 }
+
+//Some wrapper functions for getting the state of the joystick
+//Abstracts away the config storage
 
 bool joystick_is_up(void)
 {

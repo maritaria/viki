@@ -5,6 +5,7 @@
 //Custom
 #include "modules/datetime.h"
 
+//Writes a packet when requesting the time of the system
 void serial_handler_gettime(serial_args_t args)
 {
 	uint64_t millis = datetime_get_milliseconds();
